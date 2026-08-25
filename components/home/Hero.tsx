@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   animate,
   motion,
@@ -17,8 +18,15 @@ import { cn } from "@/lib/cn";
 import { easeOutExpo } from "@/lib/motion";
 import { toneGradient } from "@/lib/tone-gradient";
 import { useTone } from "@/components/tone/ToneProvider";
-import { SynapseCanvas } from "@/components/fx/SynapseCanvas";
 import { MagneticButton } from "@/components/fx/MagneticButton";
+
+const SynapseCanvas = dynamic(
+  () =>
+    import("@/components/fx/SynapseCanvas").then((m) => ({
+      default: m.SynapseCanvas,
+    })),
+  { ssr: false },
+);
 
 const MIN_SPLIT = 8;
 const MAX_SPLIT = 92;
@@ -52,7 +60,7 @@ function HeroCopy({ variant }: { variant: "human" | "machine" }) {
   return (
     <div
       className={cn(
-        "shell flex h-full flex-col justify-center pt-24 pb-28",
+        "shell flex h-full flex-col justify-center pt-24 pb-36 max-md:justify-start max-md:pt-28 max-md:pb-44 md:pb-28",
         machine ? "text-[#f0e9df]" : "text-[#1a1310]",
       )}
       aria-hidden={machine || undefined}
@@ -159,6 +167,8 @@ export function Hero() {
   const { reduced } = useTone();
   // null until measured, so nothing about the hint depends on guessing.
   const [finePointer, setFinePointer] = useState<boolean | null>(null);
+  const [narrow, setNarrow] = useState(false);
+  const [showCanvas, setShowCanvas] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
   const [announced, setAnnounced] = useState(50);
   // The intro wipe owns the seam until it lands; nothing else may touch it.
@@ -192,6 +202,25 @@ export function Hero() {
     query.addEventListener("change", sync);
     return () => query.removeEventListener("change", sync);
   }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const sync = () => setNarrow(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (reduced) return;
+    const enable = () => setShowCanvas(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(enable, { timeout: 1600 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = setTimeout(enable, 900);
+    return () => clearTimeout(timer);
+  }, [reduced]);
 
   // Wipe open on first paint so the two halves introduce themselves.
   useEffect(() => {
@@ -244,11 +273,10 @@ export function Hero() {
     };
   }, [finePointer, keyboard, reduced, split]);
 
-  // Touch has no pointer to follow, so the machine half takes over as the hero
-  // scrolls away. Tied to scrolling rather than a timer: nothing moves while
-  // someone is still reading the headline.
+  // Touch scroll nudges the seam on tablet+, but on phones the split stays
+  // centred so copy never drifts into a low-contrast gradient band.
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (finePointer !== false || reduced || !settled.current) return;
+    if (finePointer !== false || narrow || reduced || !settled.current) return;
     split.set(clamp(50 - progress * SCROLL_TAKEOVER));
   });
 
@@ -273,7 +301,7 @@ export function Hero() {
             so it never sits on top of them. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[16vh] min-h-24"
+          className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[16vh] min-h-24 md:block"
           style={{ backgroundImage: toneGradient("paper", "machine") }}
         />
         <SideMarks variant="human" align="left" />
@@ -284,7 +312,7 @@ export function Hero() {
         className="tone-machine absolute inset-0 bg-[#14100e]"
         style={{ clipPath: machineClip }}
       >
-        <SynapseCanvas density={1.2} />
+        {showCanvas ? <SynapseCanvas density={1} /> : null}
         <SideMarks variant="machine" align="right" />
       </motion.div>
 
@@ -353,7 +381,7 @@ export function Hero() {
 
       {/* Footnote — describes whichever behaviour this device actually gets */}
       {finePointer === null ? null : (
-        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-30 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-30 hidden justify-center md:flex">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

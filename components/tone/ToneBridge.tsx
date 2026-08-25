@@ -22,7 +22,10 @@ export function ToneBridge({
   return (
     <div
       aria-hidden
-      className={cn("h-[18vh] min-h-32 md:min-h-44", className)}
+      className={cn(
+        "relative isolate h-[14vh] min-h-28 md:h-[18vh] md:min-h-44",
+        className,
+      )}
       style={{ backgroundImage: toneGradient(from, to) }}
     />
   );

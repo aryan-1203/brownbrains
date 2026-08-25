@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   motion,
   useAnimationFrame,
@@ -39,6 +39,8 @@ export function Marquee({
 }: MarqueeProps) {
   const baseX = useMotionValue(0);
   const heading = useRef<number>(direction);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const visibleRef = useRef(true);
   const { reduced } = useTone();
 
   const { scrollY } = useScroll();
@@ -53,8 +55,22 @@ export function Marquee({
 
   const x = useTransform(baseX, (value) => `${wrap(-50, 0, value)}%`);
 
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+      },
+      { rootMargin: "80px" },
+    );
+    observer.observe(host);
+    return () => observer.disconnect();
+  }, []);
+
   useAnimationFrame((_, delta) => {
-    if (reduced) return;
+    if (reduced || !visibleRef.current) return;
     let moveBy = heading.current * -speed * (delta / 1000);
     const factor = velocityFactor.get();
     if (factor < 0) heading.current = -direction;
@@ -67,6 +83,7 @@ export function Marquee({
 
   return (
     <div
+      ref={hostRef}
       className={cn("relative flex overflow-hidden select-none", className)}
       aria-hidden
     >

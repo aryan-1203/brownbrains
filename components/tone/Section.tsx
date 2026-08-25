@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
-import { SynapseCanvas } from "@/components/fx/SynapseCanvas";
+import { SectionCanvas } from "@/components/tone/SectionCanvas";
 import { type Tone, useTone } from "./ToneProvider";
 
 type SectionProps = {
@@ -58,7 +58,7 @@ export function Section({
       {seam ? (
         <div aria-hidden className="seam absolute inset-x-0 top-0" />
       ) : null}
-      {canvas && tone === "machine" ? <SynapseCanvas /> : null}
+      {canvas && tone === "machine" ? <SectionCanvas /> : null}
       <div className="relative z-10">{children}</div>
     </section>
   );

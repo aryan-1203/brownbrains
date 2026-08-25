@@ -70,7 +70,16 @@ export function AssemblyLine() {
   const outer = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
+  const [wide, setWide] = useState(false);
   const { reduced } = useTone();
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setWide(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (reduced) return;
@@ -120,7 +129,7 @@ export function AssemblyLine() {
     </div>
   );
 
-  if (reduced) {
+  if (reduced || !wide) {
     return (
       <div className="py-4">
         {heading}
@@ -135,7 +144,7 @@ export function AssemblyLine() {
       className="relative"
       style={{ height: `calc(100svh + ${distance}px)` }}
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden py-20">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden bg-bg py-20">
         {heading}
 
         <div className="relative mt-12">

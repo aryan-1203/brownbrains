@@ -2,9 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import { ToneProvider } from "@/components/tone/ToneProvider";
-import { SmoothScroll } from "@/components/chrome/SmoothScroll";
-import { GrainOverlay } from "@/components/chrome/GrainOverlay";
-import { CursorRing } from "@/components/chrome/CursorRing";
+import { DeferredChrome } from "@/components/chrome/DeferredChrome";
 import { RouteTransition } from "@/components/chrome/RouteTransition";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
@@ -14,7 +12,7 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-fraunces",
-  axes: ["SOFT", "WONK", "opsz"],
+  axes: ["SOFT", "WONK"],
 });
 
 const interTight = Inter_Tight({
@@ -27,6 +25,7 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-jetbrains",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -95,9 +94,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <SmoothScroll />
-          <GrainOverlay />
-          <CursorRing />
+          <DeferredChrome />
           <RouteTransition />
           <Header />
           <main id="main">

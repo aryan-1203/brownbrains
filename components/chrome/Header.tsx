@@ -47,7 +47,7 @@ export function Header() {
           condensed
             ? "border-b border-rule bg-bg/78 py-3 backdrop-blur-xl"
             : "border-b border-transparent py-5",
-          overSplitHero && !open && "text-white mix-blend-difference",
+          overSplitHero && !open && "text-white max-md:text-white md:mix-blend-difference",
         )}
       >
         <div className="shell flex items-center justify-between gap-6">

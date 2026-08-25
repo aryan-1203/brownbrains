@@ -54,7 +54,14 @@ export function FounderCard({
   mirrored?: boolean;
 }) {
   return (
-    <div className="shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20">
+    <div
+      className={cn(
+        "shell grid gap-10 lg:items-center lg:gap-20",
+        mirrored
+          ? "lg:grid-cols-[1.15fr_0.85fr]"
+          : "lg:grid-cols-[0.85fr_1.15fr]",
+      )}
+    >
       <div className={cn(mirrored && "lg:order-2")}>
         {founder.portrait ? (
           <PortraitFrame>
