@@ -1,26 +1,407 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   Brown Brains — "Warm Machine" design system
 
+   Two tones share one variable contract. `.tone-paper` / `.tone-machine`
+   skin an individual section; `html[data-tone]` skins the global chrome
+   (header, cursor, grain) and is driven by whichever section is in view.
+   ========================================================================== */
+
+/* `inline` matters here: it compiles utilities down to var(--bg) rather than
+   var(--color-bg). Without it the alias resolves once at :root and every
+   section would inherit the global tone instead of its own. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-rule: var(--rule);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --color-ember: #d8552a;
+  --color-ember-soft: #e8794f;
+  --color-filament: #e9b44c;
+  --color-signal: #4a7c6f;
+  --color-signal-soft: #6b9c8e;
+
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --text-mega: clamp(3.25rem, 12vw, 11rem);
+  --text-display: clamp(2.5rem, 7.5vw, 6.5rem);
+  --text-title: clamp(1.9rem, 4.2vw, 3.5rem);
+  --text-heading: clamp(1.4rem, 2.4vw, 2.1rem);
+  --text-lead: clamp(1.0625rem, 1.5vw, 1.375rem);
+}
+
+/* --------------------------------------------------------------------------
+   Tone contract
+   -------------------------------------------------------------------------- */
+
+:root,
+.tone-paper {
+  --bg: #f4efe6;
+  --surface: #fbf8f3;
+  --raised: #ffffff;
+  --ink: #1a1310;
+  --muted: #6b5b50;
+  --faint: #9c8b7f;
+  --rule: #ddd3c6;
+
+  --accent: #c2431c;
+  --accent-contrast: #fbf8f3;
+  --grain-opacity: 0.05;
+  --grain-blend: multiply;
+}
+
+html[data-tone="machine"],
+.tone-machine {
+  --bg: #14100e;
+  --surface: #1f1815;
+  --raised: #2a211d;
+  --ink: #f0e9df;
+  --muted: #a2938a;
+  --faint: #6f625a;
+  --rule: #2e2622;
+
+  --accent: #e8794f;
+  --accent-contrast: #14100e;
+  --grain-opacity: 0.055;
+  --grain-blend: screen;
+}
+
+/* A third temperature used for the closing band, so the page does not simply
+   toggle between two states. Declared last so it wins over `.tone-machine`,
+   which sections also carry in order to invert the global chrome. */
+.tone-ember {
+  --bg: #c2431c;
+  --surface: #b23c17;
+  --raised: #d04f26;
+  --ink: #fdf6ee;
+  --muted: #f7ddcd;
+  --faint: #ecbba4;
+  --rule: rgba(253, 246, 238, 0.3);
+
+  --accent: #ffd9a0;
+  --accent-contrast: #7d2a0e;
+  --grain-opacity: 0.07;
+  --grain-blend: overlay;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--rule);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--bg);
+    scroll-behavior: auto;
+    transition:
+      background-color 700ms var(--ease-out-expo),
+      color 700ms var(--ease-out-expo);
+  }
+
+  /* Lenis runtime classes */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  html.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  html.lenis.lenis-stopped body,
+  html.menu-open body {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv05" 1, "ss03" 1;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    transition:
+      background-color 700ms var(--ease-out-expo),
+      color 700ms var(--ease-out-expo);
+  }
+
+  ::selection {
+    background-color: var(--color-ember);
+    color: #fbf8f3;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 380;
+    font-variation-settings: "SOFT" 20, "WONK" 1;
+    letter-spacing: -0.022em;
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* The custom ring replaces the pointer on precise devices only. */
+  @media (hover: hover) and (pointer: fine) {
+    html[data-cursor="custom"],
+    html[data-cursor="custom"] * {
+      cursor: none;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border: 3px solid var(--bg);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ember);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --------------------------------------------------------------------------
+   Texture — film grain over everything, woven paper on the light tone
+   -------------------------------------------------------------------------- */
+
+.grain-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  transition:
+    opacity 700ms var(--ease-out-expo),
+    mix-blend-mode 0ms 350ms;
+}
+
+.tone-paper {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(26, 19, 16, 0.014) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(26, 19, 16, 0.014) 0 1px,
+      transparent 1px 3px
+    );
+}
+
+/* --------------------------------------------------------------------------
+   Layout + type utilities
+   -------------------------------------------------------------------------- */
+
+@utility shell {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: 1.375rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2.5rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 3.5rem;
+  }
+}
+
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 380;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+@utility hairline {
+  border-top: 1px solid var(--rule);
+}
+
+@utility lead {
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* A wide, low-contrast rule used to mark the seam between tones. */
+@utility seam {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rule) 12%,
+    var(--rule) 88%,
+    transparent
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Components
+   -------------------------------------------------------------------------- */
+
+/* Declared in the components layer so plain utilities such as `block` still
+   win over the defaults set here. */
+@layer components {
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 460ms var(--ease-out-expo);
+  }
+  .link-underline:hover::after,
+  .link-underline[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.9rem 0 0.7rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    transition:
+      border-color 320ms var(--ease-out-expo),
+      background-color 320ms var(--ease-out-expo);
+  }
+  .field::placeholder {
+    color: var(--faint);
+  }
+  .field:focus {
+    outline: none;
+    border-bottom-color: var(--color-ember);
+  }
+  .field[aria-invalid="true"] {
+    border-bottom-color: var(--color-ember);
+  }
+  textarea.field {
+    resize: vertical;
+    min-height: 7rem;
+    line-height: 1.6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+@keyframes bb-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes bb-blink {
+  0%,
+  46% {
+    opacity: 1;
+  }
+  50%,
+  96% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes bb-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-blink {
+  animation: bb-blink 2.4s steps(1, end) infinite;
+}
+
+.animate-rise {
+  animation: bb-rise 620ms var(--ease-out-expo) both;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion — one switch turns the whole show off
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  html[data-cursor="custom"],
+  html[data-cursor="custom"] * {
+    cursor: auto;
+  }
 }
