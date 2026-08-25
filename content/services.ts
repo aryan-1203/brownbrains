@@ -43,7 +43,7 @@ export const services: Service[] = [
     side: "both",
     blurb: "A senior second opinion before you spend the money.",
     detail:
-      "Sometimes you do not need a retainer, you need two experienced people to pressure-test the plan for a few weeks. We audit what exists, name the real constraint, and hand you a sequenced plan your team can run without us.",
+      "Sometimes you do not need a retainer, you need an experienced senior team to pressure-test the plan for a few weeks. We audit what exists, name the real constraint, and hand you a sequenced plan your team can run without us.",
     deliverables: [
       "Business and funnel audit",
       "Competitive and pricing teardown",

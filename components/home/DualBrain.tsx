@@ -51,7 +51,8 @@ export function DualBrain() {
         <p className="lead mt-7 max-w-2xl">
           The strategy deck comes from one company, the build comes from another,
           and the gap between them is where budgets quietly disappear. We removed
-          the gap by being two people who each own a half.
+          the gap with two dedicated fronts — human and machine — each backed
+          by a team that owns its half.
         </p>
       </div>
 

@@ -90,8 +90,8 @@ function HeroCopy({ variant }: { variant: "human" | "machine" }) {
           machine ? "text-[#a2938a]" : "text-[#6b5b50]",
         )}
       >
-        Marketing led by thirty years of experience. Software built by a product
-        engineer. Same table, same invoice, no handoff in between.
+        Marketing led by decades of brand leadership. Software built by product
+        engineers. Same studio, same invoice, no handoff in between.
       </p>
 
       <div className="mt-11 flex flex-wrap items-center gap-4">

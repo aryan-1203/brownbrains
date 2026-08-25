@@ -11,14 +11,14 @@ import { MagneticButton } from "@/components/fx/MagneticButton";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Brown Brains is a father-and-son studio: three decades of marketing leadership on one side, product and engineering on the other.",
+    "Brown Brains runs on two fronts: three decades of marketing leadership on one side, product and engineering on the other — with a team behind each half.",
   alternates: { canonical: "/about" },
 };
 
 const notList = [
   {
     title: "Not an agency with forty juniors",
-    body: "There is no bench to keep busy and no account layer to pay for. Two senior people, both billable, both accountable.",
+    body: "We stay lean on purpose — no account layer, no endless handoffs — with senior leadership on both fronts and a team behind each half.",
   },
   {
     title: "Not a template shop",
@@ -38,9 +38,9 @@ export default function AboutPage() {
       <Section tone="paper" pad="none" className="pb-20 md:pb-28">
         <PageHero
           kicker="About"
-          title="A father and a son, running one studio"
+          title="Two fronts, one studio"
           accent={["one"]}
-          lead="One of us has spent thirty years deciding how products should be sold. The other has spent his career building them. We kept solving each other's problems over dinner, so we made it official."
+          lead="One side carries three decades of marketing leadership. The other carries product and engineering. Each front has its own team — we started solving each other's problems over dinner and made it official."
           aside={
             <dl className="grid grid-cols-2 gap-6">
               {proofStats.slice(0, 2).map((stat) => (
@@ -98,9 +98,9 @@ export default function AboutPage() {
               putting a number on it.
             </p>
             <p>
-              {site.name} exists to remove that gap. The person writing the
-              positioning and the person shipping the code are in the same room,
-              related by blood, and equally answerable for the result.
+              {site.name} exists to remove that gap. The human front and the
+              machine front work in the same room, led by people who are equally
+              answerable for the result.
             </p>
           </div>
         </div>
@@ -142,7 +142,8 @@ export default function AboutPage() {
           </h2>
           <p className="lead mt-6 max-w-xl">
             Whether you need the strategy, the software or the argument between
-            them, you will be talking to the two people who do the work.
+            them, you will talk directly to the team doing the work — not an
+            account layer.
           </p>
           <div className="mt-9">
             <MagneticButton

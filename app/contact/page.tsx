@@ -10,7 +10,7 @@ import { WordReveal } from "@/components/fx/WordReveal";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Tell Brown Brains what you are building. Both founders read every enquiry and reply from ${site.contact.city} within a working day.`,
+  description: `Tell Brown Brains what you are building. We read every enquiry and reply from ${site.contact.city} within a working day.`,
   alternates: { canonical: "/contact" },
 };
 
@@ -26,7 +26,7 @@ export default function ContactPage() {
           kicker="Contact"
           title="Tell us the situation"
           accent={["situation"]}
-          lead="One form, five fields, no discovery-call funnel. It lands in a spreadsheet we both watch and an inbox we both read, and you will hear back from one of us rather than an assistant."
+          lead="One form, five fields, no discovery-call funnel. It lands in a spreadsheet our team watches and an inbox we all read, and you will hear back from the people doing the work rather than an assistant."
           aside={
             <div className="space-y-5">
               <div>
@@ -88,7 +88,7 @@ export default function ContactPage() {
               <p className="mono-label">What happens next</p>
               <ol className="mt-5 space-y-4">
                 {[
-                  "We read it, both of us, usually the same day.",
+                  "We read it, usually the same day.",
                   "You get a straight reply: whether we are a fit, and what we would do first.",
                   "If it makes sense, we book one call and write the scope down.",
                 ].map((step, index) => (

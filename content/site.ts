@@ -10,7 +10,7 @@ export const site = {
   legalName: "Brown Brains", // REPLACE if you register a different legal entity name
   tagline: "Two brains. One built for people, one built for machines.",
   description:
-    "Brown Brains is a two-person studio pairing three decades of marketing leadership with hands-on product and AI engineering. We take brands from positioning to shipped software.",
+    "Brown Brains is a studio on two fronts — decades of marketing leadership on one, product and AI engineering on the other. We take brands from positioning to shipped software.",
   shortDescription:
     "A marketing and engineering studio for founders who need both halves of the brain.",
 
@@ -78,7 +78,7 @@ export const capabilities = [
 export const proofStats = [
   { value: 25, suffix: "+", label: "Years of marketing leadership" },
   { value: 5, suffix: "+", label: "Years building software products" },
-  { value: 2, suffix: "", label: "People, zero handoffs" },
+  { value: 2, suffix: "", label: "Fronts, zero handoffs" },
   { value: 14, suffix: " days", label: "From kickoff to first shipped asset" },
 ] as const;
 

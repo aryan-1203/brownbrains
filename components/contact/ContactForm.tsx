@@ -200,7 +200,7 @@ export function ContactForm() {
           It landed in the right inbox.
         </h2>
         <p className="lead mt-5 max-w-md">
-          Both of us read every enquiry, and you will normally hear back within one
+          We read every enquiry, and you will normally hear back within one
           working day. If it is urgent, call or message us directly.
         </p>
 

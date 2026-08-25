@@ -1,5 +1,5 @@
 /**
- * The two of you.
+ * Founder profiles shown on /about.
  *
  * REPLACE every field marked below. `side` controls which tone each founder
  * card renders in — "human" reads on paper, "machine" reads on espresso.
@@ -60,7 +60,7 @@ export const faqs = [
   },
   {
     q: "How quickly can you start?",
-    a: "We take on a limited number of engagements at a time so that the two of us stay on every one of them. Reach out and we will tell you honestly what the next open slot looks like.",
+    a: "We take on a limited number of engagements at a time so senior leadership stays close to every one of them. Reach out and we will tell you honestly what the next open slot looks like.",
   },
   {
     q: "Can you work with our existing team or agency?",

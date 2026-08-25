@@ -61,7 +61,7 @@ export const engagementModels = [
     includes: [
       "Fixed scope and fixed price",
       "One clear deliverable",
-      "Direct access to both of us",
+      "Direct access to senior leadership",
     ],
   },
   {
@@ -89,7 +89,7 @@ export const engagementModels = [
 /** Operating principles listed on /about and /approach. */
 export const principles = [
   {
-    title: "Two people, no telephone game",
+    title: "One studio, no telephone game",
     body: "The people you meet are the people who do the work. Nothing gets translated through an account manager and diluted on the way.",
   },
   {

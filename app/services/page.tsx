@@ -13,7 +13,7 @@ import { MagneticButton } from "@/components/fx/MagneticButton";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Marketing, consultation, brand building, web development, AI workflows, app development and product building — delivered by the two people you meet.",
+    "Marketing, consultation, brand building, web development, AI workflows, app development and product building — delivered by the studio you meet, not a relay chain.",
   alternates: { canonical: "/services" },
 };
 

@@ -22,7 +22,7 @@ const sections = [
   {
     heading: "Where it goes",
     body: [
-      "Submissions are appended as a row in a private Google Sheet that only the two of us can open, and a copy is emailed to us through Resend so we notice it quickly.",
+      "Submissions are appended as a row in a private Google Sheet that only authorised members of our team can open, and a copy is emailed to us through Resend so we notice it quickly.",
       "The site is hosted on Vercel, which processes standard server logs including IP address for security and abuse prevention.",
     ],
   },

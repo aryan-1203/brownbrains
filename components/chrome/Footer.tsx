@@ -47,7 +47,7 @@ export function Footer() {
               Tell us what you are trying to build.
             </h2>
             <p className="lead mt-5 max-w-sm">
-              One reply from both of us, usually within a working day. No
+              One reply from our team, usually within a working day. No
               discovery-call funnel, no pitch deck.
             </p>
             <Link
@@ -145,7 +145,7 @@ export function Footer() {
 
       <div className="shell flex flex-col gap-3 border-t border-rule py-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="font-mono text-[0.68rem] tracking-[0.1em] text-faint uppercase">
-          &copy; {year} {site.legalName}. Built by the two of us.
+          &copy; {year} {site.legalName}. Built in {site.contact.city}, {site.contact.country}.
         </p>
         <div className="flex items-center gap-5">
           <Link
