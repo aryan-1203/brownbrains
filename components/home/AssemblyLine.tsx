@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { stages } from "@/content/process";
 import { useTone } from "@/components/tone/ToneProvider";
@@ -62,27 +62,35 @@ function StackedStages() {
   );
 }
 
+function AssemblyHeading() {
+  return (
+    <div className="shell">
+      <p className="mono-label">04 / How it runs</p>
+      <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <WordReveal
+          text="Five stages, one continuous line"
+          className="max-w-2xl text-title"
+          accent={["line"]}
+        />
+        <p className="max-w-sm text-sm leading-[1.65] text-muted">
+          Nothing here is a phase gate. Strategy keeps informing the build and the
+          build keeps correcting the strategy, right through to launch.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /**
- * The process, pinned and dragged sideways by vertical scroll. The wrapper is
- * as tall as the horizontal distance, so the mapping stays 1:1 with the wheel.
+ * Pinned horizontal track. Mounted only when the outer scroll shell exists, so
+ * useScroll never receives a target ref that hasn't been attached.
  */
-export function AssemblyLine() {
+function ScrollTrack({ heading }: { heading: ReactNode }) {
   const outer = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
-  const [wide, setWide] = useState(false);
-  const { reduced } = useTone();
 
   useEffect(() => {
-    const query = window.matchMedia("(min-width: 1024px)");
-    const sync = () => setWide(query.matches);
-    sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
-    if (reduced) return;
     const node = track.current;
     if (!node) return;
 
@@ -99,7 +107,7 @@ export function AssemblyLine() {
       observer.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [reduced]);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: outer,
@@ -112,32 +120,6 @@ export function AssemblyLine() {
     mass: 0.4,
   });
 
-  const heading = (
-    <div className="shell">
-      <p className="mono-label">04 / How it runs</p>
-      <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <WordReveal
-          text="Five stages, one continuous line"
-          className="max-w-2xl text-title"
-          accent={["line"]}
-        />
-        <p className="max-w-sm text-sm leading-[1.65] text-muted">
-          Nothing here is a phase gate. Strategy keeps informing the build and the
-          build keeps correcting the strategy, right through to launch.
-        </p>
-      </div>
-    </div>
-  );
-
-  if (reduced || !wide) {
-    return (
-      <div className="py-4">
-        {heading}
-        <StackedStages />
-      </div>
-    );
-  }
-
   return (
     <div
       ref={outer}
@@ -148,7 +130,6 @@ export function AssemblyLine() {
         {heading}
 
         <div className="relative mt-12">
-          {/* The line the stages ride on */}
           <div
             aria-hidden
             className="absolute top-1/2 right-0 left-0 -z-10 h-px bg-rule"
@@ -192,4 +173,34 @@ export function AssemblyLine() {
       </div>
     </div>
   );
+}
+
+/**
+ * The process, pinned and dragged sideways by vertical scroll. The wrapper is
+ * as tall as the horizontal distance, so the mapping stays 1:1 with the wheel.
+ */
+export function AssemblyLine() {
+  const [wide, setWide] = useState(false);
+  const { reduced } = useTone();
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setWide(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  const heading = <AssemblyHeading />;
+
+  if (reduced || !wide) {
+    return (
+      <div className="py-4">
+        {heading}
+        <StackedStages />
+      </div>
+    );
+  }
+
+  return <ScrollTrack heading={heading} />;
 }

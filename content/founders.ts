@@ -1,8 +1,8 @@
 /**
  * Founder profiles shown on /about.
  *
- * REPLACE every field marked below. `side` controls which tone each founder
- * card renders in — "human" reads on paper, "machine" reads on espresso.
+ * `side` controls which tone each founder card renders in — "human" reads on
+ * paper, "machine" reads on espresso.
  */
 
 export type Founder = {
@@ -22,8 +22,8 @@ export type Founder = {
 export const founders: Founder[] = [
   {
     side: "human",
-    name: "Ajay Shrivastava", 
-    role: "Founder", 
+    name: "Ajay Shrivastava",
+    role: "Founder & Chairman",
     discipline: "The human half",
     bio: "Three decades of building brands and leading marketing teams. He has taken products into crowded markets, rebuilt positioning that had stopped working, and run the kind of campaigns that are judged on revenue rather than impressions.",
     focus: [
@@ -33,12 +33,12 @@ export const founders: Founder[] = [
       "Client and channel relationships",
     ],
     portrait: "/founder-ajay.jpg",
-    linkedin: "https://www.linkedin.com/in/ajay-shrivastava-20148795/", 
+    linkedin: "https://www.linkedin.com/in/ajay-shrivastava-20148795/",
   },
   {
     side: "machine",
-    name: "Aryan Shrivastava", 
-    role: "Founding Member",
+    name: "Aryan Shrivastava",
+    role: "Co-Founder & Director",
     discipline: "The machine half",
     bio: "A software engineer who moved into product management, which means the roadmap and the implementation come from the same head. He builds the web apps, mobile products and AI workflows, and decides what is worth building in the first place.",
     focus: [
@@ -48,7 +48,22 @@ export const founders: Founder[] = [
       "Analytics and instrumentation",
     ],
     portrait: "/founder-aryan.jpg",
-    linkedin: "https://www.linkedin.com/in/aryan-shrivastava27/", // REPLACE with your LinkedIn URL, or leave "" to hide
+    linkedin: "https://www.linkedin.com/in/aryan-shrivastava27/",
+  },
+  {
+    side: "machine",
+    name: "Rammuni Diwan",
+    role: "Co-Founder & Director",
+    discipline: "The machine half",
+    bio: "A full-time senior software developer who has spent years shipping end-to-end product systems — from the application layer through to the databases underneath. He has built scalable solutions across the stack, and he designs for the load that shows up after launch, not only the demo.",
+    focus: [
+      "End-to-end product engineering",
+      "Scalable systems and databases",
+      "Backend architecture",
+      "Production reliability",
+    ],
+    portrait: "/founder-rammuni.jpg",
+    linkedin: "",
   },
 ];
 

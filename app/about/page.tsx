@@ -31,7 +31,7 @@ const notList = [
 ];
 
 export default function AboutPage() {
-  const [human, machine] = founders;
+  const [ajay, aryan, rammuni] = founders;
 
   return (
     <>
@@ -63,13 +63,17 @@ export default function AboutPage() {
       </Section>
 
       <Section tone="paper" pad="md" seam>
-        <FounderCard founder={human} />
+        <FounderCard founder={ajay} />
       </Section>
 
       <ToneBridge from="paper" to="machine" />
 
       <Section tone="machine" pad="md" canvas>
-        <FounderCard founder={machine} mirrored />
+        <FounderCard founder={aryan} mirrored />
+      </Section>
+
+      <Section tone="machine" pad="md" canvas>
+        <FounderCard founder={rammuni} />
       </Section>
 
       <ToneBridge from="machine" to="paper" />
