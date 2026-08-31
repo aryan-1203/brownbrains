@@ -8,11 +8,11 @@
 export const site = {
   name: "Brown Brains",
   legalName: "Brown Brains", // REPLACE if you register a different legal entity name
-  tagline: "Two brains. One built for people, one built for machines.",
+  tagline: "Marketing and engineering under one roof.",
   description:
-    "Brown Brains is a studio on two fronts — decades of marketing leadership on one, product and AI engineering on the other. We take brands from positioning to shipped software.",
+    "Brown Brains is a marketing and engineering studio. We take brands from positioning to shipped software — strategy, build, and launch from one team.",
   shortDescription:
-    "A marketing and engineering studio for founders who need both halves of the brain.",
+    "A marketing and engineering studio for founders who need both under one roof.",
 
   // REPLACE with your production domain once you have one. Used for canonical
   // URLs, sitemap and Open Graph tags. Include the protocol, no trailing slash.
@@ -21,8 +21,8 @@ export const site = {
   founded: 2026, // REPLACE if different
 
   contact: {
-    emails: ["ajay@brownbrains.com", "aryan@brownbrains.com"],
-    phones: ["+91 7694015167", "+91 7611199572"],
+    emails: ["founder@brownbrains.com"],
+    phones: ["+91 7694015167"],
     // Digits only, with country code, no "+" or spaces. Leave "" to hide the button.
     whatsapp: "917694015167",
     city: "Bhopal",
@@ -78,7 +78,7 @@ export const capabilities = [
 export const proofStats = [
   { value: 25, suffix: "+", label: "Years of marketing leadership" },
   { value: 5, suffix: "+", label: "Years building software products" },
-  { value: 2, suffix: "", label: "Fronts, zero handoffs" },
+  { value: 1, suffix: "", label: "Team, zero handoffs" },
   { value: 14, suffix: " days", label: "From kickoff to first shipped asset" },
 ] as const;
 
@@ -91,21 +91,21 @@ export const engagements = [
     sector: "D2C Beverage",
     title: "Repositioned a regional brand for national retail",
     summary:
-      "Rebuilt the positioning and packaging story, then shipped a headless storefront that cut page weight by more than half.",
+      "New positioning and packaging story, plus a storefront that cut page weight in half.",
     contribution: ["Brand Building", "Web Development"],
   },
   {
     sector: "B2B SaaS",
     title: "Turned a manual sales desk into an AI workflow",
     summary:
-      "Mapped the funnel end to end, then automated qualification and follow-up so the founding team stopped losing warm leads.",
+      "Mapped the funnel, then automated qualification so warm leads stopped going cold.",
     contribution: ["AI Workflows", "Consultation"],
   },
   {
     sector: "Healthcare",
     title: "Took a clinic network from idea to launched app",
     summary:
-      "Ran discovery with real patients, defined the roadmap, and delivered the first release with booking and reminders.",
+      "Discovery with patients, a clear roadmap, and a first release with booking and reminders.",
     contribution: ["Product Building", "App Development"],
   },
 ] as const;

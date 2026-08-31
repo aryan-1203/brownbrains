@@ -14,12 +14,16 @@ export default function NotFound() {
           <span className="text-filament italic">synapse.</span>
         </h1>
         <p className="lead mt-8 max-w-md">
-          This page never existed, or it did and we moved it. Either way, the
-          working parts of the site are one click away.
+          This page never existed, or we moved it. The rest of the site is one
+          click away.
         </p>
 
         <div className="mt-11 flex flex-wrap items-center gap-4">
-          <MagneticButton href="/" cursorLabel="home" className="!bg-[#f0e9df] !text-[#14100e]">
+          <MagneticButton
+            href="/"
+            cursorLabel="home"
+            className="!bg-[#f0e9df] !text-[#14100e]"
+          >
             Back to the start
           </MagneticButton>
           <Link

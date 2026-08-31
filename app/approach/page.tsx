@@ -11,7 +11,7 @@ import { MagneticButton } from "@/components/fx/MagneticButton";
 export const metadata: Metadata = {
   title: "Approach",
   description:
-    "How Brown Brains runs an engagement: five stages from diagnosis to compounding returns, three ways to work with us, and the principles behind both.",
+    "How Brown Brains runs an engagement: five stages from diagnosis to compounding returns, three ways to work with us.",
   alternates: { canonical: "/approach" },
 };
 
@@ -21,15 +21,14 @@ export default function ApproachPage() {
       <Section tone="paper" pad="none" className="pb-16 md:pb-24">
         <PageHero
           kicker="Approach"
-          title="We diagnose before we prescribe"
-          accent={["diagnose"]}
-          lead="Every engagement runs on the same five stages, whether it is a two-week sprint or a year of partnership. The stages are short on purpose: the faster something real exists, the sooner we find out whether the plan was right."
+          title="Diagnose first. Then ship."
+          accent={["Diagnose"]}
+          lead="Five short stages — sprint or year-long. Something real exists fast enough to prove the plan."
           aside={
             <div className="rounded-2xl border border-rule bg-surface p-6">
               <p className="mono-label">Working hours</p>
               <p className="mt-3 text-sm leading-relaxed text-muted">
-                {site.contact.timezone}, with async updates in whichever tool your
-                team already lives in.
+                {site.contact.timezone}, async in the tools your team already uses.
               </p>
             </div>
           }
@@ -126,7 +125,7 @@ export default function ApproachPage() {
                 <h3 className="mt-3 text-heading leading-tight">
                   {principle.title}
                 </h3>
-                <p className="mt-3 text-[0.95rem] leading-[1.65] text-muted">
+                <p className="mt-3 text-[0.95rem] leading-[1.6] text-muted">
                   {principle.body}
                 </p>
               </li>
@@ -142,9 +141,9 @@ export default function ApproachPage() {
           <h2 className="font-display text-title leading-[0.95]">
             Week one is a conversation, not a contract.
           </h2>
-          <p className="lead mt-6 max-w-xl">
-            We would rather spend an hour telling you the work is not worth doing
-            than sell you a plan neither of us believes in.
+          <p className="lead mt-5 max-w-xl">
+            We would rather say the work is not worth doing than sell a plan
+            nobody believes in.
           </p>
           <div className="mt-9">
             <MagneticButton

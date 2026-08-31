@@ -11,22 +11,22 @@ import { MagneticButton } from "@/components/fx/MagneticButton";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Brown Brains runs on two fronts: three decades of marketing leadership on one side, product and engineering on the other — with a team behind each half.",
+    "Brown Brains is a growing marketing and engineering studio — decades of brand leadership, a product and engineering team, and one invoice.",
   alternates: { canonical: "/about" },
 };
 
 const notList = [
   {
     title: "Not an agency with forty juniors",
-    body: "We stay lean on purpose — no account layer, no endless handoffs — with senior leadership on both fronts and a team behind each half.",
+    body: "We stay lean on purpose — senior people on the work, a growing team behind them, no endless handoffs.",
   },
   {
     title: "Not a template shop",
-    body: "Nothing here is assembled from a page builder and resold. If it can be bought off the shelf, we will tell you to buy it.",
+    body: "If it can be bought off the shelf, we will tell you to buy it.",
   },
   {
     title: "Not a retainer trap",
-    body: "Monthly work is optional and cancellable. Keeping you is meant to be a choice you re-make, not a contract you are stuck in.",
+    body: "Monthly work is optional and cancellable. Keeping you is a choice you remake.",
   },
 ];
 
@@ -38,9 +38,9 @@ export default function AboutPage() {
       <Section tone="paper" pad="none" className="pb-20 md:pb-28">
         <PageHero
           kicker="About"
-          title="Two fronts, one studio"
-          accent={["one"]}
-          lead="One side carries three decades of marketing leadership. The other carries product and engineering. Each front has its own team — we started solving each other's problems over dinner and made it official."
+          title="A studio built to ship"
+          accent={["ship"]}
+          lead="Marketing leadership and an engineering team under one roof. We started solving each other's problems — then made it a company."
           aside={
             <dl className="grid grid-cols-2 gap-6">
               {proofStats.slice(0, 2).map((stat) => (
@@ -79,32 +79,24 @@ export default function AboutPage() {
       <ToneBridge from="machine" to="paper" />
 
       <Section tone="paper" pad="lg">
-        <div className="shell grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-24">
+        <div className="shell grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <div>
             <p className="mono-label">Why we started</p>
             <WordReveal
-              text="The best advice we ever gave each other was free."
+              text="The gap between strategy and build was the product."
               className="mt-5 text-title"
-              accent={["free."]}
+              accent={["product."]}
             />
           </div>
-          <div className="space-y-6 text-[1.05rem] leading-[1.75] text-muted">
+          <div className="space-y-4 text-[1.05rem] leading-[1.7] text-muted">
             <p>
-              For years the conversations went one way and then the other. A
-              campaign that needed a landing page nobody had built. A product
-              decision that hinged on how it would be positioned. Two different
-              vocabularies for the same problem, translated across a dinner table.
+              Campaigns needed software nobody had built. Products needed
+              positioning nobody owned. Two vocabularies, one problem — and the
+              gap between vendors is where budgets disappear.
             </p>
             <p>
-              Eventually it was obvious that the translation was the valuable part.
-              Most companies buy strategy from one place and execution from
-              another, then absorb the cost of the gap between them without ever
-              putting a number on it.
-            </p>
-            <p>
-              {site.name} exists to remove that gap. The human front and the
-              machine front work in the same room, led by people who are equally
-              answerable for the result.
+              {site.name} closes that gap. Marketing and engineering in the same
+              room, answerable for the same result.
             </p>
           </div>
         </div>
@@ -128,7 +120,7 @@ export default function AboutPage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-3 text-heading leading-tight">{item.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-[1.65] text-muted">
+                <p className="mt-3 text-[0.95rem] leading-[1.6] text-muted">
                   {item.body}
                 </p>
               </li>
@@ -142,12 +134,10 @@ export default function AboutPage() {
       <Section tone="machine" pad="lg" className="tone-ember">
         <div className="shell max-w-3xl">
           <h2 className="font-display text-title leading-[0.95]">
-            Come and use both halves.
+            Come work with the team.
           </h2>
-          <p className="lead mt-6 max-w-xl">
-            Whether you need the strategy, the software or the argument between
-            them, you will talk directly to the team doing the work — not an
-            account layer.
+          <p className="lead mt-5 max-w-xl">
+            Strategy, software, or both — you talk to the people doing the work.
           </p>
           <div className="mt-9">
             <MagneticButton

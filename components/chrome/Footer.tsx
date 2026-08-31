@@ -44,11 +44,10 @@ export function Footer() {
           <div>
             <p className="mono-label">Next step</p>
             <h2 className="mt-4 text-title">
-              Tell us what you are trying to build.
+              Tell us what you are building.
             </h2>
             <p className="lead mt-5 max-w-sm">
-              One reply from our team, usually within a working day. No
-              discovery-call funnel, no pitch deck.
+              One reply within a working day. No discovery-call funnel.
             </p>
             <Link
               href="/contact"

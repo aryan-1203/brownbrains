@@ -73,8 +73,7 @@ function AssemblyHeading() {
           accent={["line"]}
         />
         <p className="max-w-sm text-sm leading-[1.65] text-muted">
-          Nothing here is a phase gate. Strategy keeps informing the build and the
-          build keeps correcting the strategy, right through to launch.
+          Strategy informs the build; the build corrects the strategy — through launch.
         </p>
       </div>
     </div>

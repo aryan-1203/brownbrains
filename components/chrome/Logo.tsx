@@ -1,8 +1,7 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Two lobes: one solid (human), one drawn (machine). They lean into each other
- * on hover, which is the whole company in one gesture.
+ * Twin lobes that lean together on hover — marketing and engineering, one mark.
  */
 export function Logo({ className }: { className?: string }) {
   return (

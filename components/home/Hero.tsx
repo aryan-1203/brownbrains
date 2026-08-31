@@ -42,12 +42,12 @@ const SCROLL_TAKEOVER = 22;
 const sides = {
   human: {
     index: "01",
-    label: "Human",
-    words: ["Marketing", "Brand", "Consulting"],
+    label: "Marketing",
+    words: ["Brand", "Demand", "Consulting"],
   },
   machine: {
     index: "02",
-    label: "Machine",
+    label: "Engineering",
     words: ["Web", "Apps", "AI Workflows"],
   },
 };
@@ -75,23 +75,23 @@ function HeroCopy({ variant }: { variant: "human" | "machine" }) {
       </p>
 
       <Heading className="mt-6 font-display text-mega leading-[0.86] font-[380] tracking-[-0.035em]">
-        Two brains.
+        {site.name}
         <br />
         <span
           className={cn("italic", machine ? "text-[#e9b44c]" : "text-[#c2431c]")}
         >
-          One studio.
+          One team.
         </span>
       </Heading>
 
       <p
         className={cn(
-          "mt-8 max-w-xl text-lead leading-[1.5]",
+          "mt-8 max-w-lg text-lead leading-[1.5]",
           machine ? "text-[#a2938a]" : "text-[#6b5b50]",
         )}
       >
-        Marketing led by decades of brand leadership. Software built by product
-        engineers. Same studio, same invoice, no handoff in between.
+        Marketing and engineering under one roof — from positioning to shipped
+        software, no vendor handoff.
       </p>
 
       <div className="mt-11 flex flex-wrap items-center gap-4">
@@ -99,7 +99,9 @@ function HeroCopy({ variant }: { variant: "human" | "machine" }) {
           href="/contact"
           cursorLabel="talk"
           className={
-            machine ? "!bg-[#f0e9df] !text-[#14100e]" : "!bg-[#1a1310] !text-[#f4efe6]"
+            machine
+              ? "!bg-[#f0e9df] !text-[#14100e]"
+              : "!bg-[#1a1310] !text-[#f4efe6]"
           }
         >
           Start a project
@@ -108,10 +110,12 @@ function HeroCopy({ variant }: { variant: "human" | "machine" }) {
           href="/services"
           className={cn(
             "link-underline font-mono text-[0.72rem] tracking-[0.14em] uppercase",
-            machine ? "text-[#a2938a] hover:text-[#f0e9df]" : "text-[#6b5b50] hover:text-[#1a1310]",
+            machine
+              ? "text-[#a2938a] hover:text-[#f0e9df]"
+              : "text-[#6b5b50] hover:text-[#1a1310]",
           )}
         >
-          See the seven things we do
+          See what we do
         </Link>
       </div>
     </div>
@@ -133,7 +137,6 @@ function SideMarks({
     <div
       aria-hidden
       className={cn(
-        // Extra bottom room keeps the capability list clear of the hero's fade.
         "pointer-events-none absolute inset-y-0 hidden w-40 flex-col justify-between pt-24 pb-40 lg:flex",
         align === "left" ? "left-6 items-start" : "right-6 items-end",
         machine ? "text-[#a2938a]" : "text-[#6b5b50]",
@@ -165,19 +168,14 @@ function SideMarks({
 export function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const { reduced } = useTone();
-  // null until measured, so nothing about the hint depends on guessing.
   const [finePointer, setFinePointer] = useState<boolean | null>(null);
   const [narrow, setNarrow] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
   const [keyboard, setKeyboard] = useState(false);
   const [announced, setAnnounced] = useState(50);
-  // The intro wipe owns the seam until it lands; nothing else may touch it.
   const settled = useRef(false);
 
-  // Percentage of the hero occupied by the human side.
   const split = useMotionValue(reduced ? 50 : 100);
-  // Loose enough that the seam drifts after the cursor rather than snapping to
-  // it — the lag is what makes it feel like a curtain instead of a slider.
   const smooth = useSpring(split, { stiffness: 190, damping: 26, mass: 0.6 });
 
   const humanEdge = useTransform(smooth, (value) => 100 - value);
@@ -222,7 +220,6 @@ export function Hero() {
     return () => clearTimeout(timer);
   }, [reduced]);
 
-  // Wipe open on first paint so the two halves introduce themselves.
   useEffect(() => {
     if (reduced) {
       split.set(50);
@@ -240,9 +237,6 @@ export function Hero() {
     return () => controls.stop();
   }, [reduced, split]);
 
-  // With a mouse, the seam simply follows you around the hero. Keyboard control
-  // takes precedence while the handle is focused, so arrow keys are not fighting
-  // a stray cursor sitting somewhere over the page.
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap || !finePointer || reduced || keyboard) return;
@@ -273,8 +267,6 @@ export function Hero() {
     };
   }, [finePointer, keyboard, reduced, split]);
 
-  // Touch scroll nudges the seam on tablet+, but on phones the split stays
-  // centred so copy never drifts into a low-contrast gradient band.
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (finePointer !== false || narrow || reduced || !settled.current) return;
     split.set(clamp(50 - progress * SCROLL_TAKEOVER));
@@ -291,14 +283,11 @@ export function Hero() {
       ref={wrapRef}
       className="relative isolate min-h-[100svh] overflow-hidden select-none"
     >
-      {/* Human side */}
+      {/* Marketing side */}
       <motion.div
         className="tone-paper absolute inset-0 bg-[#f4efe6]"
         style={{ clipPath: humanClip }}
       >
-        {/* The light half sinks into espresso at the bottom so both halves meet
-            the dark section below without a hard edge. Painted before the marks
-            so it never sits on top of them. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[16vh] min-h-24 md:block"
@@ -307,7 +296,7 @@ export function Hero() {
         <SideMarks variant="human" align="left" />
       </motion.div>
 
-      {/* Machine side */}
+      {/* Engineering side */}
       <motion.div
         className="tone-machine absolute inset-0 bg-[#14100e]"
         style={{ clipPath: machineClip }}
@@ -316,7 +305,6 @@ export function Hero() {
         <SideMarks variant="machine" align="right" />
       </motion.div>
 
-      {/* Copy, once per side, clipped to match */}
       <motion.div
         className="absolute inset-0"
         style={{ clipPath: humanClip, y: contentY, opacity: contentOpacity }}
@@ -330,20 +318,15 @@ export function Hero() {
         <HeroCopy variant="machine" />
       </motion.div>
 
-      {/* The seam itself */}
       <motion.div
         className="absolute inset-y-0 z-30 w-px bg-[#c2431c]"
         style={{ left: handleLeft }}
       >
-        {/* Marks the seam and gives keyboards a way to move it. Touch devices
-            get neither — the split is decorative there, both halves carry the
-            same copy, and a disc pinned inside the hero only collides with the
-            header as the section scrolls away. */}
         {finePointer ? (
           <div
             role="slider"
             tabIndex={0}
-            aria-label="Balance the human and machine halves"
+            aria-label="Balance marketing and engineering"
             aria-valuemin={MIN_SPLIT}
             aria-valuemax={MAX_SPLIT}
             aria-valuenow={announced}
@@ -379,18 +362,16 @@ export function Hero() {
         ) : null}
       </motion.div>
 
-      {/* Footnote — describes whichever behaviour this device actually gets */}
       {finePointer === null ? null : (
         <div className="pointer-events-none absolute inset-x-0 bottom-6 z-30 hidden justify-center md:flex">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.9, duration: 0.8 }}
-            // Both halves are espresso down here, so this reads for a dark backdrop.
             className="rounded-full border border-[#c2431c]/50 bg-[#14100e]/50 px-4 py-1.5 font-mono text-[0.6rem] tracking-[0.2em] text-[#c8b8ac] uppercase backdrop-blur-sm"
           >
             {reduced
-              ? "Two halves, one studio"
+              ? "Marketing + engineering, one team"
               : finePointer
                 ? "The seam follows your cursor"
                 : "Keep scrolling to shift the seam"}

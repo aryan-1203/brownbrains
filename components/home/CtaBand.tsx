@@ -13,15 +13,15 @@ export function CtaBand() {
             06 / Open for work
           </p>
           <WordReveal
-            text="Two brains cost less than five vendors."
+            text="One team costs less than five vendors."
             className="mt-6 font-display text-display leading-[0.92]"
           />
         </div>
 
         <div className="space-y-7">
           <p className="text-lead leading-[1.55] text-muted">
-            Tell us the problem in a paragraph. We will tell you honestly whether
-            we are the right people for it, and what it would take.
+            Tell us the problem in a paragraph. We will say honestly if we are
+            the right fit — and what it takes.
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <MagneticButton

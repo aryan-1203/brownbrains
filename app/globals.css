@@ -164,14 +164,6 @@ html[data-tone="machine"],
     border-radius: 2px;
   }
 
-  /* The custom ring replaces the pointer on precise devices only. */
-  @media (hover: hover) and (pointer: fine) {
-    html[data-cursor="custom"],
-    html[data-cursor="custom"] * {
-      cursor: none;
-    }
-  }
-
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -398,10 +390,5 @@ html[data-tone="machine"],
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-
-  html[data-cursor="custom"],
-  html[data-cursor="custom"] * {
-    cursor: auto;
   }
 }

@@ -1,8 +1,8 @@
 /**
  * The seven capabilities.
  *
- * `side` drives the Human / Machine filter on the capability matrix and decides
- * which tone a service reads in. "both" services show up under either filter.
+ * `side` drives the Marketing / Engineering filter on the capability matrix
+ * and decides which tone a service reads in. "both" services show under either.
  */
 
 export type ServiceSide = "human" | "machine" | "both";
@@ -13,7 +13,7 @@ export type Service = {
   side: ServiceSide;
   /** One line, shown on the collapsed matrix row. */
   blurb: string;
-  /** Two or three sentences, shown when a row expands and on /services. */
+  /** Short detail, shown when a row expands and on /services. */
   detail: string;
   deliverables: string[];
   /** Short proof of the shape of the outcome, set in mono. */
@@ -25,9 +25,9 @@ export const services: Service[] = [
     slug: "marketing",
     title: "Marketing",
     side: "human",
-    blurb: "Demand that compounds instead of renting attention.",
+    blurb: "Demand that compounds, not rented attention.",
     detail:
-      "We build the whole engine, not a single campaign: who you are talking to, what makes them move, and the channel mix that reaches them at a price you can sustain. Then we run it and report on it in plain language.",
+      "Audience, message, channels, and a cadence you can forecast — run and reported in plain language.",
     deliverables: [
       "Audience and market research",
       "Channel strategy and budget model",
@@ -35,15 +35,15 @@ export const services: Service[] = [
       "Content and creative direction",
       "Performance reporting cadence",
     ],
-    outcome: "Cost per qualified lead you can actually forecast",
+    outcome: "Cost per qualified lead you can forecast",
   },
   {
     slug: "consultation",
     title: "Consultation",
     side: "both",
-    blurb: "A senior second opinion before you spend the money.",
+    blurb: "A senior second opinion before you spend.",
     detail:
-      "Sometimes you do not need a retainer, you need an experienced senior team to pressure-test the plan for a few weeks. We audit what exists, name the real constraint, and hand you a sequenced plan your team can run without us.",
+      "We audit what exists, name the real constraint, and leave you a sequenced plan your team can run.",
     deliverables: [
       "Business and funnel audit",
       "Competitive and pricing teardown",
@@ -57,9 +57,9 @@ export const services: Service[] = [
     slug: "brand-building",
     title: "Brand Building",
     side: "human",
-    blurb: "A position worth defending, expressed consistently.",
+    blurb: "A position worth defending, told consistently.",
     detail:
-      "Brand is the promise you can keep and the reason someone picks you over the cheaper option. We find that promise, write it down, and build the identity and voice that carry it across every surface you own.",
+      "We find the promise, write it down, and build the identity and voice that carry it everywhere.",
     deliverables: [
       "Positioning and messaging framework",
       "Naming and verbal identity",
@@ -73,9 +73,9 @@ export const services: Service[] = [
     slug: "web-development",
     title: "Web Development",
     side: "machine",
-    blurb: "Fast, accessible sites that hold up under real traffic.",
+    blurb: "Fast sites that hold up under real traffic.",
     detail:
-      "Production engineering, not a template with your logo on it. We build on modern frameworks with performance and accessibility treated as requirements, and we hand over a codebase your future team will thank you for.",
+      "Production engineering on modern frameworks — performance and accessibility as requirements, codebase you own.",
     deliverables: [
       "Marketing sites and landing systems",
       "Headless commerce and CMS builds",
@@ -89,9 +89,9 @@ export const services: Service[] = [
     slug: "ai-workflows",
     title: "AI Workflows",
     side: "machine",
-    blurb: "Automation aimed at the work that actually costs you hours.",
+    blurb: "Automation aimed at the hours you actually lose.",
     detail:
-      "We start by finding where your time leaks, then automate that specific thing. Retrieval over your own documents, drafting and triage, internal copilots, pipelines that move data between the tools you already pay for, with a human checkpoint wherever the stakes are high.",
+      "We find where time leaks, automate that specific work, and keep a human checkpoint where stakes are high.",
     deliverables: [
       "Workflow audit and automation map",
       "Retrieval and knowledge assistants",
@@ -99,7 +99,7 @@ export const services: Service[] = [
       "Tool and API integrations",
       "Evaluation, guardrails and monitoring",
     ],
-    outcome: "Hours per week back, measured before and after",
+    outcome: "Hours per week back, measured",
   },
   {
     slug: "app-development",
@@ -107,7 +107,7 @@ export const services: Service[] = [
     side: "machine",
     blurb: "Mobile products shipped to the store, then iterated.",
     detail:
-      "Cross-platform apps built to reach both stores without doubling the budget. We scope hard toward a first release that earns feedback, then keep shipping against what users actually do rather than what the spec assumed.",
+      "Cross-platform apps scoped to a first release that earns feedback, then shipped against real usage.",
     deliverables: [
       "iOS and Android from one codebase",
       "API and backend integration",
@@ -115,7 +115,7 @@ export const services: Service[] = [
       "Store submission and release process",
       "Crash, usage and retention analytics",
     ],
-    outcome: "A live app with a release cadence behind it",
+    outcome: "A live app with a release cadence",
   },
   {
     slug: "product-building",
@@ -123,7 +123,7 @@ export const services: Service[] = [
     side: "both",
     blurb: "From a rough idea to something people pay for.",
     detail:
-      "This is the discipline that sits over everything else: deciding what to build, in what order, and when to stop. We run discovery, cut scope to the smallest honest version, ship it, and read the evidence before committing the next rupee.",
+      "Discovery, the smallest honest scope, ship, then read the evidence before the next rupee.",
     deliverables: [
       "Discovery and user interviews",
       "Scope definition and roadmap",
@@ -137,8 +137,8 @@ export const services: Service[] = [
 
 export const serviceFilters = [
   { id: "all", label: "Everything" },
-  { id: "human", label: "Human" },
-  { id: "machine", label: "Machine" },
+  { id: "human", label: "Marketing" },
+  { id: "machine", label: "Engineering" },
 ] as const;
 
 export type ServiceFilter = (typeof serviceFilters)[number]["id"];

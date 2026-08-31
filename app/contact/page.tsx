@@ -26,7 +26,7 @@ export default function ContactPage() {
           kicker="Contact"
           title="Tell us the situation"
           accent={["situation"]}
-          lead="One form, five fields, no discovery-call funnel. It lands in a spreadsheet our team watches and an inbox we all read, and you will hear back from the people doing the work rather than an assistant."
+          lead="Five fields. No discovery-call funnel. We reply within a working day."
           aside={
             <div className="space-y-5">
               <div>
@@ -135,7 +135,7 @@ export default function ContactPage() {
         <div className="shell max-w-3xl">
           <p className="mono-label">Prefer to skip the form</p>
           <WordReveal
-            text="Write one paragraph and email it to us."
+            text="Write one paragraph and email it."
             className="mt-5 text-title"
             accent={["one"]}
           />

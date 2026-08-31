@@ -96,13 +96,6 @@ export function ToneProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.dataset.tone = tone;
   }, [tone]);
 
-  useEffect(() => {
-    document.documentElement.dataset.cursor = reduced ? "native" : "custom";
-    return () => {
-      delete document.documentElement.dataset.cursor;
-    };
-  }, [reduced]);
-
   const value = useMemo(
     () => ({ tone, reduced, register }),
     [tone, reduced, register],

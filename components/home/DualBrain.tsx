@@ -6,12 +6,12 @@ import { cn } from "@/lib/cn";
 import { inView, riseIn, staggerParent } from "@/lib/motion";
 import { WordReveal } from "@/components/fx/WordReveal";
 
-const halves = [
+const pillars = [
   {
-    id: "human",
-    kicker: "The human half",
+    id: "marketing",
+    kicker: "Marketing",
     title: "Positioning, story, demand",
-    body: "Someone has to decide what you stand for and why anyone should care. That work is judgement, taste and thirty years of watching what actually moves a market.",
+    body: "What you stand for, who cares, and the campaigns that move a market — led by decades of brand work.",
     points: [
       "Brand strategy and messaging",
       "Campaign planning and leadership",
@@ -19,10 +19,10 @@ const halves = [
     ],
   },
   {
-    id: "machine",
-    kicker: "The machine half",
+    id: "engineering",
+    kicker: "Engineering",
     title: "Systems, code, automation",
-    body: "Then someone has to build it, instrument it and make it repeatable. That work is engineering, and it is done in the same room as the strategy rather than thrown over a wall.",
+    body: "Built, instrumented, and made repeatable — in the same room as the strategy, not thrown over a wall.",
     points: [
       "Web and mobile product builds",
       "AI workflows and integrations",
@@ -41,23 +41,20 @@ export function DualBrain() {
 
   return (
     <div ref={ref} className="shell">
-      <div className="max-w-4xl">
-        <p className="mono-label">03 / Why two</p>
+      <div className="max-w-3xl">
+        <p className="mono-label">03 / Why us</p>
         <WordReveal
-          text="Most studios sell you one half and outsource the other."
+          text="Most founders juggle agencies and freelancers."
           className="mt-5 text-title"
-          accent={["outsource"]}
+          accent={["juggle"]}
         />
-        <p className="lead mt-7 max-w-2xl">
-          The strategy deck comes from one company, the build comes from another,
-          and the gap between them is where budgets quietly disappear. We removed
-          the gap with two dedicated fronts — human and machine — each backed
-          by a team that owns its half.
+        <p className="lead mt-6 max-w-xl">
+          Strategy from one place, build from another — that gap eats budget.
+          We close it: marketing and engineering on one team.
         </p>
       </div>
 
-      <div className="relative mt-16 grid gap-6 lg:mt-24 lg:grid-cols-2 lg:gap-20">
-        {/* Connector, drawn as the section arrives */}
+      <div className="relative mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 lg:gap-16">
         <svg
           aria-hidden
           viewBox="0 0 200 40"
@@ -74,35 +71,35 @@ export function DualBrain() {
           />
         </svg>
 
-        {halves.map((half, index) => (
+        {pillars.map((pillar, index) => (
           <motion.article
-            key={half.id}
+            key={pillar.id}
             variants={staggerParent(0.08, index * 0.08)}
             initial="hidden"
             whileInView="show"
             viewport={inView}
             className={cn(
               "relative flex flex-col justify-between rounded-2xl border p-7 md:p-10",
-              half.id === "machine"
+              pillar.id === "engineering"
                 ? "tone-machine border-transparent bg-bg text-ink"
                 : "border-rule bg-surface",
             )}
           >
             <div>
               <motion.p variants={riseIn} className="mono-label">
-                {half.kicker}
+                {pillar.kicker}
               </motion.p>
               <motion.h3
                 variants={riseIn}
                 className="mt-4 text-heading leading-[1.05]"
               >
-                {half.title}
+                {pillar.title}
               </motion.h3>
               <motion.p
                 variants={riseIn}
-                className="mt-5 text-[0.975rem] leading-[1.65] text-muted"
+                className="mt-4 text-[0.975rem] leading-[1.6] text-muted"
               >
-                {half.body}
+                {pillar.body}
               </motion.p>
             </div>
 
@@ -110,7 +107,7 @@ export function DualBrain() {
               variants={riseIn}
               className="mt-8 space-y-2 border-t border-rule pt-6"
             >
-              {half.points.map((point) => (
+              {pillar.points.map((point) => (
                 <li
                   key={point}
                   className="flex items-baseline gap-3 font-mono text-[0.72rem] tracking-[0.04em] text-muted"
@@ -119,7 +116,7 @@ export function DualBrain() {
                     aria-hidden
                     className={cn(
                       "mt-1 h-1 w-1 shrink-0 rounded-full",
-                      half.id === "machine" ? "bg-filament" : "bg-ember",
+                      pillar.id === "engineering" ? "bg-filament" : "bg-ember",
                     )}
                   />
                   {point}

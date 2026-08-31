@@ -2,10 +2,14 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { cancelFrame, frame } from "motion";
 import { useTone } from "@/components/tone/ToneProvider";
 import { setLenis } from "@/lib/lenis-store";
 
-/** Inertial scrolling, switched off entirely for reduced-motion visitors. */
+/**
+ * Inertial scrolling. Driven by Motion's frame loop so useScroll / whileInView
+ * stay in lockstep — a separate rAF often desyncs under production load.
+ */
 export function SmoothScroll() {
   const { reduced } = useTone();
 
@@ -16,21 +20,19 @@ export function SmoothScroll() {
       duration: 1.05,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 1.6,
-      // Native scrolling on touch feels better than emulated inertia.
       smoothWheel: true,
       syncTouch: false,
+      autoRaf: false,
     });
 
     setLenis(lenis);
 
-    let raf = 0;
-    const frame = (time: number) => {
-      lenis.raf(time);
-      raf = requestAnimationFrame(frame);
+    const update = ({ timestamp }: { timestamp: number }) => {
+      lenis.raf(timestamp);
     };
-    raf = requestAnimationFrame(frame);
+    // `true` = run after layout so Motion reads the updated scroll position.
+    frame.update(update, true);
 
-    // Let in-page anchors keep working while Lenis owns the scroll position.
     const onAnchorClick = (event: MouseEvent) => {
       const anchor = (event.target as HTMLElement | null)?.closest?.(
         'a[href^="#"]',
@@ -48,7 +50,7 @@ export function SmoothScroll() {
 
     return () => {
       document.removeEventListener("click", onAnchorClick);
-      cancelAnimationFrame(raf);
+      cancelFrame(update);
       setLenis(null);
       lenis.destroy();
     };

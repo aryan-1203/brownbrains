@@ -82,7 +82,7 @@ export default function OpengraphImage() {
                 maxWidth: 720,
               }}
             >
-              Two brains, one studio. Marketing and engineering under one roof.
+              Marketing and engineering under one roof.
             </div>
           </div>
 
@@ -104,7 +104,6 @@ export default function OpengraphImage() {
           </div>
         </div>
 
-        {/* Paper band, echoing the split hero and its ember seam */}
         <div
           style={{
             display: "flex",
@@ -120,7 +119,7 @@ export default function OpengraphImage() {
             color: "#6b5b50",
           }}
         >
-          Human
+          Studio
         </div>
       </div>
     ),

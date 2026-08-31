@@ -13,17 +13,17 @@ import { MagneticButton } from "@/components/fx/MagneticButton";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Marketing, consultation, brand building, web development, AI workflows, app development and product building — delivered by the studio you meet, not a relay chain.",
+    "Marketing, brand, web, apps, AI workflows and product building — from one team, not a relay chain.",
   alternates: { canonical: "/services" },
 };
 
 const sideCopy = {
-  human: "Human led",
-  machine: "Machine led",
-  both: "Both halves",
+  human: "Marketing",
+  machine: "Engineering",
+  both: "Both",
 } as const;
 
-/** Only fully machine-led work goes dark; "both" stays on paper. */
+/** Engineering work sits on sand; everything else stays on paper. */
 const toneFor = (side: Service["side"]) =>
   side === "machine" ? "machine" : "paper";
 
@@ -33,9 +33,9 @@ export default function ServicesPage() {
       <Section tone="paper" pad="none" className="pb-20 md:pb-28">
         <PageHero
           kicker="Services"
-          title="Seven capabilities that share one brain"
-          accent={["one"]}
-          lead="Hire us for one of them or all of them. The order below is roughly the order a business needs them, and the page gets warmer or cooler depending on which half of the studio leads the work."
+          title="Seven things. One team."
+          accent={["One"]}
+          lead="Hire us for one or all. Clear deliverables, one conversation."
           aside={
             <nav aria-label="Jump to a service" className="space-y-2">
               <p className="mono-label">Jump to</p>
@@ -58,7 +58,6 @@ export default function ServicesPage() {
 
       {services.map((service, index) => {
         const tone = toneFor(service.side);
-        // The section above the first service is the paper page hero.
         const previous = index === 0 ? "paper" : toneFor(services[index - 1].side);
         const flips = previous !== tone;
 
@@ -99,7 +98,7 @@ export default function ServicesPage() {
               </div>
 
               <div>
-                <p className="max-w-2xl text-[1.05rem] leading-[1.7] text-muted">
+                <p className="max-w-2xl text-[1.05rem] leading-[1.65] text-muted">
                   {service.detail}
                 </p>
 
@@ -158,11 +157,11 @@ export default function ServicesPage() {
             Not sure which one you need
           </p>
           <h2 className="mt-6 font-display text-title leading-[0.95]">
-            That is usually the first thing we work out together.
+            That is usually the first thing we work out.
           </h2>
-          <p className="lead mt-6 max-w-xl">
-            Send over the situation and we will tell you which of the seven
-            actually applies, including the ones you do not need yet.
+          <p className="lead mt-5 max-w-xl">
+            Send the situation — we will say which of the seven applies, and
+            which you can skip.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <MagneticButton

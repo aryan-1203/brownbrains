@@ -18,8 +18,10 @@ export const springSnappy: Transition = {
   mass: 0.6,
 };
 
-/** Standard "enters as it scrolls into frame" viewport config. */
-export const inView = { once: true, margin: "-12% 0px -12% 0px" } as const;
+/** Standard "enters as it scrolls into frame" viewport config.
+ *  Soft margins — aggressive negative margins miss on slower production paints
+ *  (fonts still swapping) and leave once:true reveals stuck hidden. */
+export const inView = { once: true, amount: 0.2, margin: "0px 0px -8% 0px" } as const;
 
 export const riseIn: Variants = {
   hidden: { opacity: 0, y: 22 },
