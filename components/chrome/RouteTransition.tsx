@@ -2,26 +2,26 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { site } from "@/content/site";
-import { easeInOutQuart, easeOutExpo } from "@/lib/motion";
-import { useTone } from "@/components/tone/ToneProvider";
+import { easeInOutQuart } from "@/lib/motion";
 
 function routeLabel(pathname: string) {
-  if (pathname === "/") return site.name;
+  if (pathname === "/") return "Home";
   const match = site.nav.find((item) => pathname.startsWith(item.href));
   return match?.label ?? pathname.replace("/", "");
 }
 
-/** Warm panel that sweeps up across the viewport between routes. */
+/**
+ * Between routes, a saffron and a cobalt panel sweep across from opposite
+ * sides and meet in the middle — the logo's two halves, at screen scale.
+ */
 export function RouteTransition() {
   const pathname = usePathname();
   const [sweeping, setSweeping] = useState<string | null>(null);
   const [lastPath, setLastPath] = useState(pathname);
-  const { reduced } = useTone();
+  const reduced = useReducedMotion();
 
-  // Comparing against the previous route during render means the sweep starts on
-  // the same commit as the new page, with no extra frame of the old one.
   if (lastPath !== pathname) {
     setLastPath(pathname);
     if (!reduced) setSweeping(pathname);
@@ -29,11 +29,9 @@ export function RouteTransition() {
 
   useEffect(() => {
     if (!sweeping) return;
-    const timer = setTimeout(() => setSweeping(null), 820);
+    const timer = setTimeout(() => setSweeping(null), 760);
     return () => clearTimeout(timer);
   }, [sweeping]);
-
-  const label = sweeping ? routeLabel(sweeping) : "";
 
   return (
     <AnimatePresence>
@@ -41,32 +39,30 @@ export function RouteTransition() {
         <motion.div
           key={sweeping}
           aria-hidden
-          className="pointer-events-none fixed inset-0 z-[95] flex items-center justify-center bg-[#14100e]"
-          initial={{ y: "100%" }}
-          animate={{ y: "0%" }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.62, ease: easeInOutQuart }}
+          className="pointer-events-none fixed inset-0 z-[95] flex"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.34, ease: easeOutExpo }}
-            className="flex flex-col items-center gap-5 px-6 text-center"
+            className="h-full w-1/2 bg-saffron"
+            initial={{ x: "-100%" }}
+            animate={{ x: "0%" }}
+            transition={{ duration: 0.5, ease: easeInOutQuart }}
+          />
+          <motion.div
+            className="h-full w-1/2 bg-cobalt"
+            initial={{ x: "100%" }}
+            animate={{ x: "0%" }}
+            transition={{ duration: 0.5, ease: easeInOutQuart }}
+          />
+          <motion.span
+            className="absolute inset-0 flex items-center justify-center font-display text-[clamp(2.5rem,9vw,6.5rem)] font-bold tracking-[-0.04em] text-midnight"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
           >
-            {label === site.name ? null : (
-              <span className="font-mono text-[0.62rem] tracking-[0.34em] text-[#a2938a] uppercase">
-                {site.name}
-              </span>
-            )}
-            <span className="font-display text-[clamp(2.75rem,11vw,7.5rem)] leading-[0.85] font-[380] tracking-[-0.035em] text-[#f0e9df]">
-              {label}
-            </span>
-            <span
-              aria-hidden
-              className="h-px w-16 bg-[#e9b44c]"
-            />
-          </motion.div>
+            {routeLabel(sweeping)}
+          </motion.span>
         </motion.div>
       ) : null}
     </AnimatePresence>

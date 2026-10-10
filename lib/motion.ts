@@ -6,7 +6,7 @@ export const easeInOutQuart = [0.76, 0, 0.24, 1] as const;
 
 export const springSoft: Transition = {
   type: "spring",
-  stiffness: 180,
+  stiffness: 170,
   damping: 26,
   mass: 0.9,
 };
@@ -14,25 +14,24 @@ export const springSoft: Transition = {
 export const springSnappy: Transition = {
   type: "spring",
   stiffness: 420,
-  damping: 34,
+  damping: 32,
   mass: 0.6,
 };
 
-/** Standard "enters as it scrolls into frame" viewport config.
- *  Soft margins — aggressive negative margins miss on slower production paints
- *  (fonts still swapping) and leave once:true reveals stuck hidden. */
+/** Standard "enters as it scrolls into frame" viewport config. Soft margins —
+ *  aggressive negative margins miss on slow paints and strand once:true reveals. */
 export const inView = { once: true, amount: 0.2, margin: "0px 0px -8% 0px" } as const;
 
 export const riseIn: Variants = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 0, y: 28 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: easeOutExpo },
+    transition: { duration: 0.8, ease: easeOutExpo },
   },
 };
 
-export const staggerParent = (stagger = 0.07, delay = 0): Variants => ({
+export const staggerParent = (stagger = 0.08, delay = 0): Variants => ({
   hidden: {},
   show: { transition: { staggerChildren: stagger, delayChildren: delay } },
 });
@@ -44,9 +43,4 @@ export const wordMask: Variants = {
     y: "0%",
     transition: { duration: 0.9, ease: easeOutExpo },
   },
-};
-
-export const fadeUpSmall: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOutExpo } },
 };

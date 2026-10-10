@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { cancelFrame, frame } from "motion";
-import { useTone } from "@/components/tone/ToneProvider";
+import { useReducedMotion } from "motion/react";
 import { setLenis } from "@/lib/lenis-store";
 
 /**
@@ -11,13 +11,13 @@ import { setLenis } from "@/lib/lenis-store";
  * stay in lockstep — a separate rAF often desyncs under production load.
  */
 export function SmoothScroll() {
-  const { reduced } = useTone();
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     if (reduced) return;
 
     const lenis = new Lenis({
-      duration: 1.05,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 1.6,
       smoothWheel: true,
@@ -30,7 +30,6 @@ export function SmoothScroll() {
     const update = ({ timestamp }: { timestamp: number }) => {
       lenis.raf(timestamp);
     };
-    // `true` = run after layout so Motion reads the updated scroll position.
     frame.update(update, true);
 
     const onAnchorClick = (event: MouseEvent) => {

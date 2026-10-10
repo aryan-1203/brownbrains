@@ -8,17 +8,14 @@
 export const site = {
   name: "Brown Brains",
   legalName: "Brown Brains", // REPLACE if you register a different legal entity name
-  tagline: "Marketing and engineering under one roof.",
+  tagline: "Marketing and engineering, built as one.",
   description:
-    "Brown Brains is a marketing and engineering studio. We take brands from positioning to shipped software — strategy, build, and launch from one team.",
-  shortDescription:
-    "A marketing and engineering studio for founders who need both under one roof.",
+    "Brown Brains is a marketing and engineering company. Brand, campaigns, websites, apps and AI workflows, planned and built by one team.",
+  shortDescription: "Marketing and engineering, built as one team.",
 
   // REPLACE with your production domain once you have one. Used for canonical
   // URLs, sitemap and Open Graph tags. Include the protocol, no trailing slash.
   url: "https://brown-brains.vercel.app",
-
-  founded: 2026, // REPLACE if different
 
   contact: {
     emails: ["founder@brownbrains.com"],
@@ -55,57 +52,54 @@ export function contactTelHref(phone: string) {
   return `tel:${phone.replace(/\s/g, "")}`;
 }
 
-/** Rotating strip of capabilities used in the tone-seam marquees. */
+/** Short capability words for marquees. */
 export const capabilities = [
   "Brand Strategy",
-  "Go-to-Market",
   "Positioning",
-  "Web Development",
+  "Campaigns",
+  "Websites",
+  "Mobile Apps",
   "AI Workflows",
   "Product Discovery",
-  "Mobile Apps",
   "Design Systems",
-  "Campaign Ops",
   "Automation",
-  "Consulting",
   "Analytics",
 ] as const;
 
 /**
- * Numbers shown in the Proof section.
+ * Numbers shown in the Proof section (and the first two on /about).
  * REPLACE the values and labels with figures you can stand behind.
  */
 export const proofStats = [
-  { value: 25, suffix: "+", label: "Years of marketing leadership" },
-  { value: 5, suffix: "+", label: "Years building software products" },
-  { value: 1, suffix: "", label: "Team, zero handoffs" },
-  { value: 14, suffix: " days", label: "From kickoff to first shipped asset" },
+  { value: 25, suffix: "+", label: "Years leading marketing" },
+  { value: 5, suffix: "+", label: "Years shipping software" },
+  { value: 1, suffix: "", label: "Team. Zero handoffs." },
+  { value: 14, suffix: "", label: "Days to the first shipped asset" },
 ] as const;
 
 /**
- * Illustrative engagements. REPLACE all three with real work as you land it —
- * keep the shape identical and the section will lay itself out.
+ * Illustrative engagements. REPLACE all three with real work as you land it.
+ * Keep the shape identical and the section lays itself out.
  */
 export const engagements = [
   {
     sector: "D2C Beverage",
-    title: "Repositioned a regional brand for national retail",
+    title: "A regional brand, repositioned for national retail",
     summary:
-      "New positioning and packaging story, plus a storefront that cut page weight in half.",
+      "New positioning and packaging story, plus a storefront half the weight.",
     contribution: ["Brand Building", "Web Development"],
   },
   {
     sector: "B2B SaaS",
-    title: "Turned a manual sales desk into an AI workflow",
-    summary:
-      "Mapped the funnel, then automated qualification so warm leads stopped going cold.",
+    title: "A manual sales desk, turned into an AI workflow",
+    summary: "Automated lead qualification so warm leads stopped going cold.",
     contribution: ["AI Workflows", "Consultation"],
   },
   {
     sector: "Healthcare",
-    title: "Took a clinic network from idea to launched app",
+    title: "A clinic network, from idea to launched app",
     summary:
-      "Discovery with patients, a clear roadmap, and a first release with booking and reminders.",
+      "Patient discovery, a clear roadmap, and a first release with booking.",
     contribution: ["Product Building", "App Development"],
   },
 ] as const;

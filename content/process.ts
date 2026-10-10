@@ -1,10 +1,13 @@
-/** The five stages rendered as the pinned horizontal assembly line. */
+/** The five stages every engagement runs through. Read by / and /approach. */
+
+export type StageId = "signal" | "frame" | "prototype" | "ship" | "compound";
 
 export type Stage = {
-  id: string;
+  id: StageId;
   title: string;
-  /** Rough elapsed time, set in mono under the title. */
+  /** Rough elapsed time. */
   duration: string;
+  /** One short line. */
   description: string;
   outputs: string[];
 };
@@ -13,42 +16,41 @@ export const stages: Stage[] = [
   {
     id: "signal",
     title: "Signal",
-    duration: "Week 0",
-    description:
-      "Numbers, customers, competitors, and the one thing blocking growth. Most engagements change shape here.",
-    outputs: ["Discovery calls", "Data and funnel audit", "Constraint named"],
+    duration: "Week 1",
+    description: "Find the one thing actually blocking growth.",
+    outputs: [
+      "Data and funnel audit",
+      "Competitor scan",
+      "The constraint, named",
+    ],
   },
   {
     id: "frame",
     title: "Frame",
-    duration: "Week 1",
-    description:
-      "Position, audience, and scope on one page — clear enough to repeat to an investor.",
+    duration: "Week 2",
+    description: "Position, audience and scope, on one page.",
     outputs: ["Positioning", "Scope and roadmap", "Success metrics"],
   },
   {
     id: "prototype",
     title: "Prototype",
-    duration: "Weeks 2–3",
-    description:
-      "The cheapest version that can still be judged, in front of real people while changing our minds is free.",
-    outputs: ["Working prototype", "Creative directions", "Early feedback"],
+    duration: "Weeks 3 to 4",
+    description: "The cheapest version real people can judge.",
+    outputs: ["Working prototype", "Creative directions", "User feedback"],
   },
   {
     id: "ship",
     title: "Ship",
-    duration: "Weeks 4–8",
-    description:
-      "Build and launch with a date. Marketing and engineering move together — one team, one invoice.",
+    duration: "Weeks 5 to 8",
+    description: "Build and campaign launch together, on a fixed date.",
     outputs: ["Production build", "Campaign live", "Handover docs"],
   },
   {
     id: "compound",
     title: "Compound",
     duration: "Ongoing",
-    description:
-      "Launch is the start of the data. Kill what failed, double down on what worked.",
-    outputs: ["Monthly review", "Iteration backlog", "Growth reporting"],
+    description: "Measure, cut what failed, double what worked.",
+    outputs: ["Monthly review", "Iteration backlog", "Growth reports"],
   },
 ];
 
@@ -56,60 +58,68 @@ export const stages: Stage[] = [
 export const engagementModels = [
   {
     name: "Sprint",
-    duration: "2–4 weeks",
-    bestFor: "A specific question or a launch that cannot slip.",
+    duration: "2 to 4 weeks",
+    bestFor: "One sharp question, or a launch that cannot slip.",
     includes: [
-      "Fixed scope and fixed price",
+      "Fixed scope, fixed price",
       "One clear deliverable",
-      "Direct access to senior leadership",
+      "Senior people, direct",
     ],
+    covers: ["signal", "frame", "prototype"],
+    /** Honest nudge, not a popularity claim. */
+    note: "Easiest first step",
   },
   {
     name: "Build",
-    duration: "6–12 weeks",
-    bestFor: "Taking a brand, site, app or workflow from nothing to live.",
+    duration: "6 to 12 weeks",
+    bestFor: "A brand, site, app or workflow, taken from zero to live.",
     includes: [
-      "Full discovery through launch",
-      "Weekly demos, no status theatre",
-      "Codebase and assets handed over",
+      "Discovery through launch",
+      "Weekly demos",
+      "Code and assets handed over",
     ],
+    covers: ["signal", "frame", "prototype", "ship"],
+    note: null,
   },
   {
     name: "Partner",
     duration: "Monthly",
-    bestFor: "Founders who want a marketing and product team on tap.",
+    bestFor: "A marketing and product team, on tap.",
     includes: [
-      "Reserved capacity each month",
-      "Continuous shipping and reporting",
-      "Cancel with 30 days notice",
+      "Reserved monthly capacity",
+      "Ship and report continuously",
+      "30 days notice to stop",
     ],
+    covers: ["ship", "compound"],
+    note: null,
   },
-] as const;
+] as const satisfies ReadonlyArray<{
+  name: string;
+  duration: string;
+  bestFor: string;
+  includes: readonly string[];
+  covers: readonly StageId[];
+  note: string | null;
+}>;
 
 /** Operating principles listed on /about and /approach. */
 export const principles = [
-  {
-    title: "One team, no telephone game",
-    body: "The people you meet do the work. No account layer diluting the brief.",
-  },
+  { title: "One team, one brief", body: "The people you meet do the work." },
   {
     title: "Strategy that ships",
-    body: "We only recommend what we are willing to build ourselves.",
+    body: "We only recommend what we would build.",
   },
   {
     title: "Small scope, real dates",
-    body: "Ship a smaller thing on the day we promised — not a bigger thing eventually.",
+    body: "A smaller thing, on the promised day.",
   },
   {
     title: "Evidence over instinct",
-    body: "Instinct sets the hypothesis. Numbers decide what happens next.",
+    body: "Instinct guesses. Numbers decide.",
   },
+  { title: "You own everything", body: "Code, accounts, assets. No lock-in." },
   {
-    title: "You own everything",
-    body: "Code, accounts, assets, docs. No lock-in, no mystery logins.",
-  },
-  {
-    title: "Automate the boring work",
-    body: "If a task is repeated and unloved, it should be a workflow.",
+    title: "Automate the boring",
+    body: "Repeated and unloved? It becomes a workflow.",
   },
 ] as const;

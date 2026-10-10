@@ -1,190 +1,138 @@
-import { Fragment } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { services, type Service } from "@/content/services";
-import { capabilities, site } from "@/content/site";
-import { cn } from "@/lib/cn";
-import { Section } from "@/components/tone/Section";
-import { ToneBridge } from "@/components/tone/ToneBridge";
-import { PageHero } from "@/components/layout/PageHero";
-import { Marquee } from "@/components/fx/Marquee";
-import { MagneticButton } from "@/components/fx/MagneticButton";
+import { site } from "@/content/site";
+import { Section } from "@/components/ui/Section";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitReveal } from "@/components/motion/SplitReveal";
+import { Parallax } from "@/components/motion/Parallax";
+import { ServicesSpectrum } from "@/components/services/ServicesSpectrum";
+import { ServiceScroller } from "@/components/services/ServiceScroller";
+import { SideMerge } from "@/components/services/SideMerge";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Marketing, brand, web, apps, AI workflows and product building — from one team, not a relay chain.",
+    "Marketing, brand, consultation, web, apps, AI workflows and product building. Take one side or both, from one team.",
   alternates: { canonical: "/services" },
 };
 
-const sideCopy = {
-  human: "Marketing",
-  machine: "Engineering",
-  both: "Both",
-} as const;
-
-/** Engineering work sits on sand; everything else stays on paper. */
-const toneFor = (side: Service["side"]) =>
-  side === "machine" ? "machine" : "paper";
-
 export default function ServicesPage() {
+  const email = site.contact.emails[0];
+
   return (
     <>
-      <Section tone="paper" pad="none" className="pb-20 md:pb-28">
-        <PageHero
-          kicker="Services"
-          title="Seven things. One team."
-          accent={["One"]}
-          lead="Hire us for one or all. Clear deliverables, one conversation."
-          aside={
-            <nav aria-label="Jump to a service" className="space-y-2">
-              <p className="mono-label">Jump to</p>
-              {services.map((service, index) => (
-                <Link
-                  key={service.slug}
-                  href={`#${service.slug}`}
-                  className="link-underline flex items-baseline gap-3 text-sm text-muted transition-colors hover:text-ink"
-                >
-                  <span className="font-mono text-[0.66rem] text-faint tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {service.title}
-                </Link>
-              ))}
-            </nav>
-          }
-        />
-      </Section>
-
-      {services.map((service, index) => {
-        const tone = toneFor(service.side);
-        const previous = index === 0 ? "paper" : toneFor(services[index - 1].side);
-        const flips = previous !== tone;
-
-        return (
-          <Fragment key={service.slug}>
-            {flips ? <ToneBridge from={previous} to={tone} /> : null}
-          <Section
-            id={service.slug}
-            tone={tone}
-            pad="md"
-            seam={!flips}
-            canvas={tone === "machine"}
-            className="scroll-mt-24"
-          >
-            <div className="shell grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
-              <div className="lg:sticky lg:top-32 lg:self-start">
-                <div className="flex items-center gap-4">
-                  <span className="font-mono text-[0.72rem] text-faint tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={cn(
-                      "rounded-full border px-3 py-1 font-mono text-[0.6rem] tracking-[0.12em] uppercase",
-                      service.side === "both"
-                        ? "border-signal/60 text-signal-soft"
-                        : "border-rule text-muted",
-                    )}
-                  >
-                    {sideCopy[service.side]}
-                  </span>
-                </div>
-                <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.94]">
-                  {service.title}
-                </h2>
-                <p className="mt-5 max-w-sm text-lead leading-[1.5]">
-                  {service.blurb}
-                </p>
-              </div>
-
-              <div>
-                <p className="max-w-2xl text-[1.05rem] leading-[1.65] text-muted">
-                  {service.detail}
-                </p>
-
-                <div className="mt-10 grid gap-8 sm:grid-cols-2">
-                  <div>
-                    <p className="mono-label">What you get</p>
-                    <ul className="mt-4 space-y-3 border-t border-rule pt-4">
-                      {service.deliverables.map((item) => (
-                        <li
-                          key={item}
-                          className="flex gap-3 text-[0.925rem] leading-snug text-muted"
-                        >
-                          <span
-                            aria-hidden
-                            className="mt-[0.45em] h-1 w-1 shrink-0 rounded-full bg-ember"
-                          />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="rounded-2xl border border-rule bg-surface p-6">
-                    <p className="mono-label">Outcome</p>
-                    <p className="mt-3 font-display text-[1.35rem] leading-snug">
-                      {service.outcome}
-                    </p>
-                    <Link
-                      href={`/contact?service=${service.slug}`}
-                      className="mt-6 inline-flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-ember uppercase"
-                      data-cursor-label="enquire"
-                    >
-                      <span className="link-underline">Enquire about this</span>
-                      <span aria-hidden>&rarr;</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Section>
-          </Fragment>
-        );
-      })}
-
-      <ToneBridge from="paper" to="machine" />
-
-      <Section tone="machine" pad="none" className="py-9 md:py-12">
-        <Marquee items={capabilities} speed={2} />
-      </Section>
-
-      <ToneBridge from="machine" to="ember" />
-
-      <Section tone="machine" pad="lg" className="tone-ember">
-        <div className="shell max-w-3xl">
-          <p className="font-mono text-[0.68rem] tracking-[0.2em] text-muted uppercase">
-            Not sure which one you need
-          </p>
-          <h2 className="mt-6 font-display text-title leading-[0.95]">
-            That is usually the first thing we work out.
-          </h2>
-          <p className="lead mt-5 max-w-xl">
-            Send the situation — we will say which of the seven applies, and
-            which you can skip.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <MagneticButton
-              href="/contact"
-              cursorLabel="write"
-              className="!bg-[#fdf6ee] !text-[#7d2a0e]"
-            >
-              Start a project
-            </MagneticButton>
-            {site.contact.emails.map((email) => (
-              <a
-                key={email}
-                href={`mailto:${email}`}
-                className="link-underline font-mono text-[0.72rem] tracking-[0.12em] text-muted uppercase hover:text-ink"
-              >
-                {email}
-              </a>
-            ))}
+      {/* Hero: the two halves and the overlap, every service in its place. */}
+      <Section theme="chalk" pad={false} className="overflow-x-clip pt-36 pb-20 md:pt-44 md:pb-28">
+        <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
+          <div>
+            <Reveal y={16}>
+              <Eyebrow>Services</Eyebrow>
+            </Reveal>
+            <SplitReveal
+              as="h1"
+              immediate
+              delay={0.1}
+              text="Seven services. One team."
+              accent={["One"]}
+              className="mt-6 text-display"
+            />
+            <Reveal delay={0.35} y={20}>
+              <p className="lead mt-6 max-w-md">
+                Take one side or both. Marketing and engineering, planned
+                together.
+              </p>
+            </Reveal>
+            <Reveal delay={0.5} y={20} className="mt-9 flex flex-wrap gap-3">
+              <Button href="/contact">Start a project</Button>
+              <Button href="#all-services" variant="secondary" arrow={false}>
+                See all seven
+              </Button>
+            </Reveal>
           </div>
+
+          <ServicesSpectrum />
         </div>
       </Section>
 
-      <ToneBridge from="ember" to="machine" />
+      {/* Signature: sticky stage that redraws per service. */}
+      <Section theme="midnight" id="all-services" className="scroll-mt-0">
+        <div className="shell mb-10 lg:mb-4">
+          <Eyebrow>The seven</Eyebrow>
+          <SplitReveal
+            text="Scroll. Pick what fits."
+            accent={["fits."]}
+            className="mt-5 max-w-3xl text-title"
+          />
+        </div>
+        <ServiceScroller />
+      </Section>
+
+      {/* How the halves combine. */}
+      <Section theme="chalk">
+        <div className="shell">
+          <div className="max-w-2xl">
+            <Eyebrow>Mix and match</Eyebrow>
+            <SplitReveal
+              text="Pick one side. Or both."
+              accent={["both."]}
+              className="mt-5 text-title"
+            />
+            <Reveal delay={0.15}>
+              <p className="lead mt-5">
+                Start with one. Adding the other is a conversation, not a new
+                vendor.
+              </p>
+            </Reveal>
+          </div>
+          <SideMerge />
+        </div>
+      </Section>
+
+      {/* Close. */}
+      <Section theme="saffron" className="overflow-hidden">
+        <Parallax
+          speed={60}
+          className="pointer-events-none absolute -top-24 -right-40 md:-right-16"
+        >
+          <svg
+            aria-hidden
+            focusable="false"
+            viewBox="0 0 600 340"
+            className="w-[36rem] max-w-none opacity-90 md:w-[44rem]"
+          >
+            <circle cx={220} cy={170} r={150} fill="none" stroke="#0a1733" strokeOpacity={0.14} strokeWidth={2} />
+            <circle cx={380} cy={170} r={150} fill="none" stroke="#0a1733" strokeOpacity={0.14} strokeWidth={2} />
+            <path
+              d="M300 43.1A150 150 0 0 1 300 296.9A150 150 0 0 1 300 43.1Z"
+              fill="#0a1733"
+              fillOpacity={0.08}
+            />
+          </svg>
+        </Parallax>
+
+        <div className="shell relative">
+          <Eyebrow>Not sure yet</Eyebrow>
+          <SplitReveal
+            text="Not sure which you need?"
+            className="mt-5 max-w-3xl text-display"
+          />
+          <Reveal delay={0.15}>
+            <p className="lead mt-6 max-w-lg">
+              Tell us the problem. We will say what fits, and what to skip.
+            </p>
+          </Reveal>
+          <Reveal delay={0.25} className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <Button href="/contact">Start a project</Button>
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex min-h-11 items-center font-display font-semibold"
+            >
+              <span className="link-underline">{email}</span>
+            </a>
+          </Reveal>
+        </div>
+      </Section>
     </>
   );
 }

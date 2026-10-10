@@ -1,157 +1,182 @@
 import type { Metadata } from "next";
 import { founders } from "@/content/founders";
-import { proofStats, site } from "@/content/site";
-import { Section } from "@/components/tone/Section";
-import { ToneBridge } from "@/components/tone/ToneBridge";
-import { PageHero } from "@/components/layout/PageHero";
-import { FounderCard } from "@/components/about/FounderCard";
-import { WordReveal } from "@/components/fx/WordReveal";
-import { MagneticButton } from "@/components/fx/MagneticButton";
+import { Section } from "@/components/ui/Section";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/motion/Reveal";
+import { SplitReveal } from "@/components/motion/SplitReveal";
+import { ScrollWords } from "@/components/motion/ScrollWords";
+import { HalvesMark } from "@/components/about/HalvesMark";
+import { LeaderCard } from "@/components/about/LeaderCard";
+import { Horizon } from "@/components/about/Horizon";
+import { NotList, type NotItem } from "@/components/about/NotList";
+import { RoleRows } from "@/components/about/RoleRows";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Brown Brains is a growing marketing and engineering studio — decades of brand leadership, a product and engineering team, and one invoice.",
+    "Meet the people leading Brown Brains: marketing and engineering under one roof, answerable for one result.",
   alternates: { canonical: "/about" },
 };
 
-const notList = [
-  {
-    title: "Not an agency with forty juniors",
-    body: "We stay lean on purpose — senior people on the work, a growing team behind them, no endless handoffs.",
-  },
-  {
-    title: "Not a template shop",
-    body: "If it can be bought off the shelf, we will tell you to buy it.",
-  },
-  {
-    title: "Not a retainer trap",
-    body: "Monthly work is optional and cancellable. Keeping you is a choice you remake.",
-  },
+const notList: NotItem[] = [
+  { not: "Two vendors", instead: "One team, one plan, one invoice." },
+  { not: "Juniors on your account", instead: "Senior people on the work." },
+  { not: "Templates for everyone", instead: "Built around your problem." },
+  { not: "Retainer traps", instead: "Monthly work you can cancel." },
+  { not: "Vanity metrics", instead: "Judged on revenue and usage." },
+];
+
+const roles = [
+  "Strategists",
+  "Brand designers",
+  "Engineers",
+  "Marketers",
+  "Writers",
+  "Product designers",
+  "Analysts",
+  "AI builders",
 ];
 
 export default function AboutPage() {
-  const [ajay, aryan, rammuni] = founders;
-
   return (
     <>
-      <Section tone="paper" pad="none" className="pb-20 md:pb-28">
-        <PageHero
-          kicker="About"
-          title="A studio built to ship"
-          accent={["ship"]}
-          lead="Marketing leadership and an engineering team under one roof. We started solving each other's problems — then made it a company."
-          aside={
-            <dl className="grid grid-cols-2 gap-6">
-              {proofStats.slice(0, 2).map((stat) => (
-                <div key={stat.label}>
-                  <dt className="sr-only">{stat.label}</dt>
-                  <dd>
-                    <span className="block font-display text-[2.5rem] leading-none">
-                      {stat.value}
-                      {stat.suffix}
-                    </span>
-                    <span className="mt-2 block font-mono text-[0.62rem] leading-relaxed tracking-[0.08em] text-muted uppercase">
-                      {stat.label}
-                    </span>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          }
-        />
-      </Section>
-
-      <Section tone="paper" pad="md" seam>
-        <FounderCard founder={ajay} />
-      </Section>
-
-      <ToneBridge from="paper" to="machine" />
-
-      <Section tone="machine" pad="md" canvas>
-        <FounderCard founder={aryan} mirrored />
-      </Section>
-
-      <Section tone="machine" pad="md" canvas>
-        <FounderCard founder={rammuni} />
-      </Section>
-
-      <ToneBridge from="machine" to="paper" />
-
-      <Section tone="paper" pad="lg">
-        <div className="shell grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      {/* Hero */}
+      <Section theme="midnight" pad={false} className="overflow-hidden">
+        <div className="shell grid items-center gap-12 pt-36 pb-20 md:pt-44 md:pb-28 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="mono-label">Why we started</p>
-            <WordReveal
-              text="The gap between strategy and build was the product."
-              className="mt-5 text-title"
-              accent={["product."]}
+            <Reveal y={16}>
+              <Eyebrow>About</Eyebrow>
+            </Reveal>
+            <SplitReveal
+              as="h1"
+              immediate
+              delay={0.1}
+              text="Built by people who ship."
+              accent={["ship."]}
+              className="mt-6 text-display font-black"
+            />
+            <Reveal delay={0.35} y={20}>
+              <p className="lead mt-6 max-w-md">
+                Marketing leadership and engineering under one roof, answerable
+                for one result.
+              </p>
+            </Reveal>
+            <Reveal delay={0.5} y={20} className="mt-9">
+              <Button href="#leadership" variant="secondary">
+                Meet the leadership
+              </Button>
+            </Reveal>
+          </div>
+          <HalvesMark className="mx-auto aspect-square w-full max-w-[22rem] text-sky md:max-w-[28rem]" />
+        </div>
+      </Section>
+
+      {/* Story */}
+      <Section theme="chalk">
+        <div className="shell max-w-5xl">
+          <Eyebrow>Why we exist</Eyebrow>
+          <ScrollWords
+            text="Strategy got written in one office and built in another. Budgets vanished in the gap, so we closed it."
+            accent={["gap,", "closed", "it."]}
+            className="mt-8 font-display text-title font-bold tracking-[-0.035em] leading-[1.08]"
+          />
+        </div>
+      </Section>
+
+      {/* Leadership */}
+      <Section theme="midnight" id="leadership" className="scroll-mt-24 overflow-hidden">
+        <div className="shell">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <Eyebrow>Leadership</Eyebrow>
+              <SplitReveal
+                text="The people at the helm."
+                accent={["helm."]}
+                className="mt-6 text-title font-extrabold"
+              />
+            </div>
+            <Reveal delay={0.15}>
+              <p className="lead max-w-sm">
+                Backed by a team of strategists, designers, engineers and
+                marketers.
+              </p>
+            </Reveal>
+          </div>
+
+          <Horizon className="mt-12 md:mt-16" />
+
+          <div className="mx-auto mt-12 grid max-w-md gap-16 md:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-10 xl:gap-14">
+            {founders.map((founder, index) => (
+              <LeaderCard key={founder.name} founder={founder} index={index} />
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* How we work */}
+      <Section theme="cobalt">
+        <div className="shell">
+          <div className="max-w-2xl">
+            <Eyebrow>How we work</Eyebrow>
+            <SplitReveal
+              text="What we are not."
+              accent={["not."]}
+              className="mt-6 text-title font-extrabold"
             />
           </div>
-          <div className="space-y-4 text-[1.05rem] leading-[1.7] text-muted">
-            <p>
-              Campaigns needed software nobody had built. Products needed
-              positioning nobody owned. Two vocabularies, one problem — and the
-              gap between vendors is where budgets disappear.
-            </p>
-            <p>
-              {site.name} closes that gap. Marketing and engineering in the same
-              room, answerable for the same result.
-            </p>
+          <div className="mt-12 md:mt-16">
+            <NotList items={notList} />
           </div>
         </div>
       </Section>
 
-      <ToneBridge from="paper" to="machine" />
+      {/* Wider team */}
+      <Section theme="saffron" className="overflow-hidden">
+        <div className="shell grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <Eyebrow>Behind the leadership</Eyebrow>
+            <SplitReveal
+              text="A bench for every brief."
+              className="mt-6 text-title font-extrabold"
+            />
+          </div>
+          <Reveal delay={0.15}>
+            <p className="lead max-w-sm">
+              The right specialist joins your project when it needs one. Same
+              roof, same plan.
+            </p>
+          </Reveal>
+        </div>
+        <div className="mt-14 md:mt-20">
+          <RoleRows roles={roles} />
+        </div>
+      </Section>
 
-      <Section tone="machine" pad="lg">
-        <div className="shell">
-          <p className="mono-label">Being clear</p>
-          <WordReveal
-            text="Three things we are not"
-            className="mt-5 max-w-xl text-title"
-            accent={["not"]}
+      {/* Closing CTA */}
+      <Section theme="chalk" className="overflow-hidden">
+        <div className="shell grid items-center gap-12 md:grid-cols-[1fr_auto]">
+          <div className="max-w-2xl">
+            <SplitReveal
+              text="Talk to the team."
+              accent={["team."]}
+              className="text-display font-black"
+            />
+            <Reveal delay={0.2}>
+              <p className="lead mt-5 max-w-md">
+                Strategy, software, or both. Tell us what you are building.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3} className="mt-9">
+              <Button href="/contact">Start a conversation</Button>
+            </Reveal>
+          </div>
+          <HalvesMark
+            mode="close-on-scroll"
+            className="mx-auto aspect-square w-48 text-midnight md:w-64"
           />
-
-          <ul className="mt-14 grid gap-x-14 gap-y-10 border-t border-rule pt-12 md:grid-cols-3">
-            {notList.map((item, index) => (
-              <li key={item.title}>
-                <span className="font-mono text-[0.68rem] text-filament tabular-nums">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-heading leading-tight">{item.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-[1.6] text-muted">
-                  {item.body}
-                </p>
-              </li>
-            ))}
-          </ul>
         </div>
       </Section>
-
-      <ToneBridge from="machine" to="ember" />
-
-      <Section tone="machine" pad="lg" className="tone-ember">
-        <div className="shell max-w-3xl">
-          <h2 className="font-display text-title leading-[0.95]">
-            Come work with the team.
-          </h2>
-          <p className="lead mt-5 max-w-xl">
-            Strategy, software, or both — you talk to the people doing the work.
-          </p>
-          <div className="mt-9">
-            <MagneticButton
-              href="/contact"
-              cursorLabel="write"
-              className="!bg-[#fdf6ee] !text-[#7d2a0e]"
-            >
-              Get in touch
-            </MagneticButton>
-          </div>
-        </div>
-      </Section>
-
-      <ToneBridge from="ember" to="machine" />
     </>
   );
 }

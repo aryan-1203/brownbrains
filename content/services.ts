@@ -1,8 +1,10 @@
 /**
- * The seven capabilities.
+ * The seven services.
  *
- * `side` drives the Marketing / Engineering filter on the capability matrix
- * and decides which tone a service reads in. "both" services show under either.
+ * `side` decides which half a service belongs to: "human" is marketing
+ * (saffron), "machine" is engineering (cobalt), "both" sits in the overlap.
+ * `slug` doubles as the anchor id on /services and the contact form value,
+ * so keep slugs stable.
  */
 
 export type ServiceSide = "human" | "machine" | "both";
@@ -11,12 +13,13 @@ export type Service = {
   slug: string;
   title: string;
   side: ServiceSide;
-  /** One line, shown on the collapsed matrix row. */
+  /** One line. The promise. */
   blurb: string;
-  /** Short detail, shown when a row expands and on /services. */
+  /** One short sentence of how. */
   detail: string;
+  /** Three or four, never more. */
   deliverables: string[];
-  /** Short proof of the shape of the outcome, set in mono. */
+  /** The shape of the result, in a few words. */
   outcome: string;
 };
 
@@ -26,30 +29,25 @@ export const services: Service[] = [
     title: "Marketing",
     side: "human",
     blurb: "Demand that compounds, not rented attention.",
-    detail:
-      "Audience, message, channels, and a cadence you can forecast — run and reported in plain language.",
+    detail: "Audience, message and channels, run on a cadence you can forecast.",
     deliverables: [
       "Audience and market research",
-      "Channel strategy and budget model",
-      "Campaign planning and execution",
-      "Content and creative direction",
-      "Performance reporting cadence",
+      "Channel plan and budget model",
+      "Campaigns, run end to end",
+      "Plain-language reporting",
     ],
-    outcome: "Cost per qualified lead you can forecast",
+    outcome: "Leads you can forecast",
   },
   {
     slug: "consultation",
     title: "Consultation",
     side: "both",
     blurb: "A senior second opinion before you spend.",
-    detail:
-      "We audit what exists, name the real constraint, and leave you a sequenced plan your team can run.",
+    detail: "We name the real constraint and leave a plan your team can run.",
     deliverables: [
       "Business and funnel audit",
-      "Competitive and pricing teardown",
-      "Prioritised opportunity map",
-      "Written recommendations and roadmap",
-      "Working sessions with your team",
+      "Competitor and pricing teardown",
+      "A sequenced written roadmap",
     ],
     outcome: "A decision you stop second-guessing",
   },
@@ -57,81 +55,71 @@ export const services: Service[] = [
     slug: "brand-building",
     title: "Brand Building",
     side: "human",
-    blurb: "A position worth defending, told consistently.",
-    detail:
-      "We find the promise, write it down, and build the identity and voice that carry it everywhere.",
+    blurb: "A position worth defending, told the same way everywhere.",
+    detail: "We find the promise, then build the identity and voice that carry it.",
     deliverables: [
-      "Positioning and messaging framework",
+      "Positioning and messaging",
       "Naming and verbal identity",
-      "Visual identity and logo system",
+      "Logo and visual system",
       "Brand guidelines and asset kit",
-      "Launch or relaunch narrative",
     ],
-    outcome: "One story, told the same way everywhere",
+    outcome: "One story, everywhere",
   },
   {
     slug: "web-development",
     title: "Web Development",
     side: "machine",
     blurb: "Fast sites that hold up under real traffic.",
-    detail:
-      "Production engineering on modern frameworks — performance and accessibility as requirements, codebase you own.",
+    detail: "Modern, accessible builds on a codebase you own.",
     deliverables: [
-      "Marketing sites and landing systems",
-      "Headless commerce and CMS builds",
-      "Web app front ends and dashboards",
-      "Core Web Vitals and SEO groundwork",
-      "Analytics and conversion tracking",
+      "Marketing sites and landing pages",
+      "Headless CMS and commerce",
+      "Dashboards and web apps",
+      "SEO, speed and tracking",
     ],
-    outcome: "Sub-second loads and a codebase you own",
+    outcome: "Sub-second loads, your code",
   },
   {
     slug: "ai-workflows",
     title: "AI Workflows",
     side: "machine",
     blurb: "Automation aimed at the hours you actually lose.",
-    detail:
-      "We find where time leaks, automate that specific work, and keep a human checkpoint where stakes are high.",
+    detail: "We automate the leaky work and keep a human where stakes are high.",
     deliverables: [
       "Workflow audit and automation map",
-      "Retrieval and knowledge assistants",
-      "Content and support automation",
+      "Knowledge and support assistants",
       "Tool and API integrations",
-      "Evaluation, guardrails and monitoring",
+      "Guardrails and monitoring",
     ],
-    outcome: "Hours per week back, measured",
+    outcome: "Hours back every week, measured",
   },
   {
     slug: "app-development",
     title: "App Development",
     side: "machine",
-    blurb: "Mobile products shipped to the store, then iterated.",
-    detail:
-      "Cross-platform apps scoped to a first release that earns feedback, then shipped against real usage.",
+    blurb: "Mobile apps shipped to the store, then improved.",
+    detail: "One codebase for iOS and Android, scoped to a first release that earns feedback.",
     deliverables: [
-      "iOS and Android from one codebase",
-      "API and backend integration",
-      "Offline behaviour and notifications",
-      "Store submission and release process",
-      "Crash, usage and retention analytics",
+      "iOS and Android, one codebase",
+      "Backend and API integration",
+      "Store release process",
+      "Usage and crash analytics",
     ],
-    outcome: "A live app with a release cadence",
+    outcome: "A live app with a release rhythm",
   },
   {
     slug: "product-building",
     title: "Product Building",
     side: "both",
     blurb: "From a rough idea to something people pay for.",
-    detail:
-      "Discovery, the smallest honest scope, ship, then read the evidence before the next rupee.",
+    detail: "Smallest honest scope, ship it, then let the evidence pick what is next.",
     deliverables: [
       "Discovery and user interviews",
-      "Scope definition and roadmap",
-      "Prototypes and validation",
-      "Delivery management through launch",
-      "Metrics, pricing and iteration plan",
+      "Scope and roadmap",
+      "Prototype, build and launch",
+      "Metrics and pricing plan",
     ],
-    outcome: "Fewer features, more of the right ones",
+    outcome: "Fewer features, the right ones",
   },
 ];
 
@@ -142,3 +130,10 @@ export const serviceFilters = [
 ] as const;
 
 export type ServiceFilter = (typeof serviceFilters)[number]["id"];
+
+/** Display names for each side. */
+export const sideLabel: Record<ServiceSide, string> = {
+  human: "Marketing",
+  machine: "Engineering",
+  both: "Both",
+};

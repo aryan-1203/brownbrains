@@ -1,383 +1,312 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import dynamic from "next/dynamic";
+import { useRef, type CSSProperties } from "react";
 import {
-  animate,
   motion,
-  useMotionTemplate,
-  useMotionValue,
-  useMotionValueEvent,
+  useReducedMotion,
   useScroll,
-  useSpring,
-  useTransform,
+  type MotionStyle,
 } from "motion/react";
-import { site } from "@/content/site";
+import { useTransform } from "@/lib/use-transform";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { easeOutExpo } from "@/lib/motion";
-import { toneGradient } from "@/lib/tone-gradient";
-import { useTone } from "@/components/tone/ToneProvider";
-import { MagneticButton } from "@/components/fx/MagneticButton";
 
-const SynapseCanvas = dynamic(
-  () =>
-    import("@/components/fx/SynapseCanvas").then((m) => ({
-      default: m.SynapseCanvas,
-    })),
-  { ssr: false },
-);
-
-const MIN_SPLIT = 8;
-const MAX_SPLIT = 92;
 /**
- * How far the seam leans toward the pointer. Below 1 it trails the cursor
- * instead of pinning under it, which keeps the ring clear of the handle and
- * makes the whole range reachable without aiming at the very edge of the screen.
+ * Chapter 1. "Two halves, one brain."
+ *
+ * A saffron half (marketing) and a cobalt half (engineering) start far apart.
+ * Scrolling pulls them together until they lock into one circle, then a chalk
+ * flood opens from the seam and becomes the ground of the next chapter.
+ *
+ * Geometry lives in CSS variables so mobile and desktop share one motion
+ * timeline: --d (diameter), --off (starting distance), --cy (vertical centre).
+ * Motion only writes the unitless --split (1 apart, 0 locked) and --flood.
  */
-const POINTER_RESPONSE = 0.78;
-/** How much of the hero the machine half claims as you scroll away from it. */
-const SCROLL_TAKEOVER = 22;
 
-const sides = {
-  human: {
-    index: "01",
-    label: "Marketing",
-    words: ["Brand", "Demand", "Consulting"],
-  },
-  machine: {
-    index: "02",
-    label: "Engineering",
-    words: ["Web", "Apps", "AI Workflows"],
-  },
-};
+const marketing = ["Brand", "Campaigns", "Positioning"];
+const engineering = ["Web", "Apps", "AI"];
 
-/** The centre column, rendered once per side so its colour flips at the seam. */
-function HeroCopy({ variant }: { variant: "human" | "machine" }) {
-  const machine = variant === "machine";
-  const Heading = machine ? "p" : "h1";
-
+/** Labels that circle a half. The ring spins; each chip counter-spins upright. */
+function Orbit({
+  items,
+  side,
+  style,
+}: {
+  items: string[];
+  side: "left" | "right";
+  style?: MotionStyle;
+}) {
   return (
-    <div
+    <motion.div
+      aria-hidden
+      style={style}
       className={cn(
-        "shell flex h-full flex-col justify-center pt-24 pb-36 max-md:justify-start max-md:pt-28 max-md:pb-44 md:pb-28",
-        machine ? "text-[#f0e9df]" : "text-[#1a1310]",
+        "pointer-events-none absolute top-1/2 h-[calc(var(--d)*1.55)] w-[calc(var(--d)*1.55)] -translate-y-1/2",
+        // Centred on the circle's true centre: the flat edge of each half.
+        side === "left" ? "right-0 translate-x-1/2" : "left-0 -translate-x-1/2",
       )}
-      aria-hidden={machine || undefined}
     >
-      <p
-        className={cn(
-          "font-mono text-[0.68rem] tracking-[0.2em] uppercase",
-          machine ? "text-[#a2938a]" : "text-[#6b5b50]",
-        )}
-      >
-        Est. {site.founded} — {site.contact.city}, {site.contact.country}
-      </p>
-
-      <Heading className="mt-6 font-display text-mega leading-[0.86] font-[380] tracking-[-0.035em]">
-        {site.name}
-        <br />
-        <span
-          className={cn("italic", machine ? "text-[#e9b44c]" : "text-[#c2431c]")}
-        >
-          One team.
-        </span>
-      </Heading>
-
-      <p
-        className={cn(
-          "mt-8 max-w-lg text-lead leading-[1.5]",
-          machine ? "text-[#a2938a]" : "text-[#6b5b50]",
-        )}
-      >
-        Marketing and engineering under one roof — from positioning to shipped
-        software, no vendor handoff.
-      </p>
-
-      <div className="mt-11 flex flex-wrap items-center gap-4">
-        <MagneticButton
-          href="/contact"
-          cursorLabel="talk"
-          className={
-            machine
-              ? "!bg-[#f0e9df] !text-[#14100e]"
-              : "!bg-[#1a1310] !text-[#f4efe6]"
-          }
-        >
-          Start a project
-        </MagneticButton>
-        <Link
-          href="/services"
-          className={cn(
-            "link-underline font-mono text-[0.72rem] tracking-[0.14em] uppercase",
-            machine
-              ? "text-[#a2938a] hover:text-[#f0e9df]"
-              : "text-[#6b5b50] hover:text-[#1a1310]",
-          )}
-        >
-          See what we do
-        </Link>
+      <div className="animate-spin-slow absolute inset-0 rounded-full border border-dashed border-white/15">
+        {items.map((item, index) => {
+          const angle =
+            (index / items.length) * Math.PI * 2 +
+            (side === "left" ? 2.4 : -0.7);
+          return (
+            <span
+              key={item}
+              className="absolute"
+              style={{
+                left: `${50 + Math.cos(angle) * 50}%`,
+                top: `${50 + Math.sin(angle) * 50}%`,
+              }}
+            >
+              <span
+                className={cn(
+                  "animate-spin-slow block -translate-x-1/2 -translate-y-1/2 rounded-full px-3 py-1 text-[0.7rem] font-bold tracking-[0.08em] whitespace-nowrap uppercase shadow-lg md:px-4 md:py-1.5 md:text-[0.8rem]",
+                  side === "left"
+                    ? "bg-midnight-2 text-saffron ring-1 ring-saffron/40"
+                    : "bg-midnight-2 text-sky ring-1 ring-cobalt/60",
+                )}
+                style={{ animationDirection: "reverse" }}
+              >
+                {item}
+              </span>
+            </span>
+          );
+        })}
       </div>
+    </motion.div>
+  );
+}
+
+function HeroCopy({ style }: { style?: MotionStyle }) {
+  return (
+    <motion.div
+      style={style}
+      className="shell relative z-10 grid gap-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-14"
+    >
+      <div>
+        <p className="eyebrow mb-4 text-sky">
+          <span aria-hidden className="h-2 w-2 rounded-full bg-saffron" />
+          Marketing
+          <span aria-hidden>+</span>
+          Engineering
+        </p>
+        <h1 className="font-display text-[clamp(2.6rem,6.4vw,6rem)] font-extrabold tracking-[-0.045em] text-chalk">
+          Marketing and engineering.{" "}
+          <span className="text-saffron">One team.</span>
+        </h1>
+      </div>
+      <div className="flex flex-col gap-5 md:items-start md:pb-2">
+        <p className="lead max-w-sm text-[#c4cde3]">
+          Brand, campaigns, websites, apps and AI. Planned and built by the same
+          people.
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button href="/contact">Start a project</Button>
+          <Button
+            href="#problem"
+            variant="ghost"
+            arrow={false}
+            className="text-chalk"
+          >
+            <span className="flex items-center gap-2">
+              Scroll
+              <span
+                aria-hidden
+                className="relative block h-5 w-3 rounded-full border-2 border-current"
+              >
+                <span className="animate-pulse-dot absolute top-1 left-1/2 block h-1.5 w-0.5 -translate-x-1/2 rounded-full bg-saffron" />
+              </span>
+            </span>
+          </Button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/** The two halves, laid out around a shared centre. The outer layer carries the
+ *  CSS-variable travel, the inner motion layer the rotation, so neither
+ *  transform overwrites the other. */
+function Halves({
+  leftStyle,
+  rightStyle,
+  orbitStyle,
+}: {
+  leftStyle?: MotionStyle;
+  rightStyle?: MotionStyle;
+  orbitStyle?: MotionStyle;
+}) {
+  return (
+    <>
+      <div className="absolute top-0 right-1/2 h-full w-1/2 [transform:translateX(calc(var(--split)*var(--off)*-1))]">
+        <Orbit items={marketing} side="left" style={orbitStyle} />
+        <motion.div
+          style={leftStyle}
+          className="absolute inset-0 origin-right rounded-l-full bg-saffron shadow-[0_0_80px_-10px_rgba(255,178,36,0.55)]"
+        />
+      </div>
+      <div className="absolute top-0 left-1/2 h-full w-1/2 [transform:translateX(calc(var(--split)*var(--off)))]">
+        <Orbit items={engineering} side="right" style={orbitStyle} />
+        <motion.div
+          style={rightStyle}
+          className="absolute inset-0 origin-left rounded-r-full bg-cobalt shadow-[0_0_80px_-10px_rgba(43,89,255,0.7)]"
+        />
+      </div>
+    </>
+  );
+}
+
+const geometry =
+  "[--d:38vw] [--off:24vw] [--cy:30%] md:[--d:min(32vh,26vw)] md:[--off:min(30vw,26rem)] md:[--cy:36%]";
+
+function Backdrop() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div className="dot-grid absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_50%_35%,black,transparent_70%)]" />
+      <svg
+        className="absolute top-[var(--cy)] left-1/2 h-[calc(var(--d)*4)] w-[calc(var(--d)*4)] -translate-x-1/2 -translate-y-1/2 text-white/[0.07]"
+        viewBox="0 0 100 100"
+        fill="none"
+      >
+        <circle
+          cx="50"
+          cy="50"
+          r="49"
+          stroke="currentColor"
+          strokeWidth="0.2"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="36"
+          stroke="currentColor"
+          strokeWidth="0.2"
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r="23"
+          stroke="currentColor"
+          strokeWidth="0.2"
+          strokeDasharray="1 1.5"
+        />
+      </svg>
     </div>
   );
 }
 
-/** Edge column: an index, a rotated side name and that side's capabilities. */
-function SideMarks({
-  variant,
-  align,
+function StaticHero({
+  sectionRef,
 }: {
-  variant: "human" | "machine";
-  align: "left" | "right";
+  sectionRef: React.RefObject<HTMLElement | null>;
 }) {
-  const data = sides[variant];
-  const machine = variant === "machine";
-
   return (
-    <div
-      aria-hidden
+    <section
+      ref={sectionRef}
+      aria-label="Introduction"
       className={cn(
-        "pointer-events-none absolute inset-y-0 hidden w-40 flex-col justify-between pt-24 pb-40 lg:flex",
-        align === "left" ? "left-6 items-start" : "right-6 items-end",
-        machine ? "text-[#a2938a]" : "text-[#6b5b50]",
+        "theme-midnight relative flex min-h-svh flex-col justify-end overflow-hidden pt-36",
+        geometry,
       )}
+      style={{ "--split": 0 } as CSSProperties}
     >
-      <div className={cn(align === "right" && "text-right")}>
-        <p className="font-mono text-[0.68rem] tracking-[0.2em] uppercase">
-          {data.index} / {data.label}
-        </p>
-        <div
-          className={cn(
-            "mt-3 h-px w-14",
-            machine ? "bg-[#2e2622]" : "bg-[#ddd3c6]",
-          )}
-        />
+      <Backdrop />
+      <div className="absolute top-[var(--cy)] left-1/2 h-[var(--d)] w-[var(--d)] -translate-x-1/2 -translate-y-1/2">
+        <Halves />
       </div>
-
-      <ul className={cn("space-y-1.5", align === "right" && "text-right")}>
-        {data.words.map((word) => (
-          <li key={word} className="font-mono text-[0.7rem] tracking-[0.08em]">
-            {word}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <HeroCopy />
+    </section>
   );
 }
 
 export function Hero() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const { reduced } = useTone();
-  const [finePointer, setFinePointer] = useState<boolean | null>(null);
-  const [narrow, setNarrow] = useState(false);
-  const [showCanvas, setShowCanvas] = useState(false);
-  const [keyboard, setKeyboard] = useState(false);
-  const [announced, setAnnounced] = useState(50);
-  const settled = useRef(false);
-
-  const split = useMotionValue(reduced ? 50 : 100);
-  const smooth = useSpring(split, { stiffness: 190, damping: 26, mass: 0.6 });
-
-  const humanEdge = useTransform(smooth, (value) => 100 - value);
-  const humanClip = useMotionTemplate`inset(0 ${humanEdge}% 0 0)`;
-  const machineClip = useMotionTemplate`inset(0 0 0 ${smooth}%)`;
-  const handleLeft = useMotionTemplate`${smooth}%`;
-
-  const { scrollYProgress } = useScroll({
-    target: wrapRef,
-    offset: ["start start", "end start"],
-  });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
-
-  const clamp = (value: number) =>
-    Math.min(MAX_SPLIT, Math.max(MIN_SPLIT, value));
-
-  useEffect(() => {
-    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const sync = () => setFinePointer(query.matches);
-    sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 767px)");
-    const sync = () => setNarrow(query.matches);
-    sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
-    if (reduced) return;
-    const enable = () => setShowCanvas(true);
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(enable, { timeout: 1600 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const timer = setTimeout(enable, 900);
-    return () => clearTimeout(timer);
-  }, [reduced]);
-
-  useEffect(() => {
-    if (reduced) {
-      split.set(50);
-      settled.current = true;
-      return;
-    }
-    const controls = animate(split, 50, {
-      duration: 1.5,
-      delay: 0.35,
-      ease: easeOutExpo,
-      onComplete: () => {
-        settled.current = true;
-      },
-    });
-    return () => controls.stop();
-  }, [reduced, split]);
-
-  useEffect(() => {
-    const wrap = wrapRef.current;
-    if (!wrap || !finePointer || reduced || keyboard) return;
-
-    let bounds = wrap.getBoundingClientRect();
-    const measure = () => {
-      bounds = wrap.getBoundingClientRect();
-    };
-
-    const onMove = (event: PointerEvent) => {
-      if (!settled.current || bounds.width === 0) return;
-      const pct = ((event.clientX - bounds.left) / bounds.width) * 100;
-      split.set(clamp(50 + (pct - 50) * POINTER_RESPONSE));
-    };
-
-    const onLeave = () => {
-      if (settled.current) split.set(50);
-    };
-
-    wrap.addEventListener("pointermove", onMove, { passive: true });
-    wrap.addEventListener("pointerleave", onLeave);
-    window.addEventListener("resize", measure);
-
-    return () => {
-      wrap.removeEventListener("pointermove", onMove);
-      wrap.removeEventListener("pointerleave", onLeave);
-      window.removeEventListener("resize", measure);
-    };
-  }, [finePointer, keyboard, reduced, split]);
-
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (finePointer !== false || narrow || reduced || !settled.current) return;
-    split.set(clamp(50 - progress * SCROLL_TAKEOVER));
+  const reduced = useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress: p } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
   });
 
-  const nudge = (delta: number) => {
-    const next = clamp(split.get() + delta);
-    split.set(next);
-    setAnnounced(Math.round(next));
-  };
+  const split = useTransform(p, [0.04, 0.42], [1, 0]);
+  const leftRotate = useTransform(p, [0, 0.42], [-24, 0]);
+  const rightRotate = useTransform(p, [0, 0.42], [24, 0]);
+  const orbitOpacity = useTransform(p, [0.04, 0.3], [1, 0]);
+  const copyOpacity = useTransform(p, [0, 0.2], [1, 0]);
+  const copyY = useTransform(p, [0, 0.25], [0, -90]);
+  const copyEvents = useTransform(p, (v) => (v > 0.16 ? "none" : "auto"));
+  const lockScale = useTransform(p, [0.4, 0.56], [1, 1.9]);
+  const lockOpacity = useTransform(p, [0.38, 0.43, 0.56], [0, 1, 0]);
+  const captionOpacity = useTransform(
+    p,
+    [0.42, 0.48, 0.58, 0.64],
+    [0, 1, 1, 0],
+  );
+  const circleScale = useTransform(p, [0.5, 0.82], [1, 2.4]);
+  const circleRotate = useTransform(p, [0.5, 0.9], [0, 90]);
+  const flood = useTransform(p, [0.6, 0.94], [0, 150]);
+  const outroOpacity = useTransform(p, [0.86, 0.94], [0, 1]);
+  const outroY = useTransform(p, [0.86, 0.96], [30, 0]);
+
+  if (reduced) return <StaticHero sectionRef={ref} />;
 
   return (
-    <div
-      ref={wrapRef}
-      className="relative isolate min-h-[100svh] overflow-hidden select-none"
+    <section
+      ref={ref}
+      aria-label="Introduction"
+      className={cn("relative h-[200vh] bg-midnight md:h-[280vh]", geometry)}
     >
-      {/* Marketing side */}
       <motion.div
-        className="tone-paper absolute inset-0 bg-[#f4efe6]"
-        style={{ clipPath: humanClip }}
+        className="theme-midnight sticky top-0 flex h-svh flex-col justify-end overflow-hidden pt-28"
+        style={{ "--split": split, "--flood": flood } as unknown as MotionStyle}
       >
+        <Backdrop />
+
+        {/* The joined circle. Rotates a quarter turn as it grows. */}
+        <motion.div
+          style={{ scale: circleScale, rotate: circleRotate }}
+          className="absolute top-[var(--cy)] left-1/2 -mt-[calc(var(--d)/2)] -ml-[calc(var(--d)/2)] h-[var(--d)] w-[var(--d)]"
+        >
+          <Halves
+            leftStyle={{ rotate: leftRotate }}
+            rightStyle={{ rotate: rightRotate }}
+            orbitStyle={{ opacity: orbitOpacity }}
+          />
+          <motion.div
+            aria-hidden
+            style={{ scale: lockScale, opacity: lockOpacity }}
+            className="absolute inset-0 rounded-full border-2 border-chalk"
+          />
+        </motion.div>
+
+        <motion.p
+          aria-hidden
+          style={{ opacity: captionOpacity }}
+          className="pointer-events-none absolute top-[calc(var(--cy)_+_var(--d)*0.5_+_2.5rem)] left-1/2 -translate-x-1/2 font-display text-heading font-bold whitespace-nowrap text-chalk"
+        >
+          Locked in. <span className="text-saffron">One brain.</span>
+        </motion.p>
+
+        <HeroCopy
+          style={{ opacity: copyOpacity, y: copyY, pointerEvents: copyEvents }}
+        />
+
+        {/* Chalk flood that opens from the seam and hands off to chapter 2. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[16vh] min-h-24 md:block"
-          style={{ backgroundImage: toneGradient("paper", "machine") }}
-        />
-        <SideMarks variant="human" align="left" />
-      </motion.div>
-
-      {/* Engineering side */}
-      <motion.div
-        className="tone-machine absolute inset-0 bg-[#14100e]"
-        style={{ clipPath: machineClip }}
-      >
-        {showCanvas ? <SynapseCanvas density={1} /> : null}
-        <SideMarks variant="machine" align="right" />
-      </motion.div>
-
-      <motion.div
-        className="absolute inset-0"
-        style={{ clipPath: humanClip, y: contentY, opacity: contentOpacity }}
-      >
-        <HeroCopy variant="human" />
-      </motion.div>
-      <motion.div
-        className="absolute inset-0"
-        style={{ clipPath: machineClip, y: contentY, opacity: contentOpacity }}
-      >
-        <HeroCopy variant="machine" />
-      </motion.div>
-
-      <motion.div
-        className="absolute inset-y-0 z-30 w-px bg-[#c2431c]"
-        style={{ left: handleLeft }}
-      >
-        {finePointer ? (
-          <div
-            role="slider"
-            tabIndex={0}
-            aria-label="Balance marketing and engineering"
-            aria-valuemin={MIN_SPLIT}
-            aria-valuemax={MAX_SPLIT}
-            aria-valuenow={announced}
-            onFocus={() => setKeyboard(true)}
-            onBlur={() => setKeyboard(false)}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowLeft") {
-                event.preventDefault();
-                nudge(-6);
-              }
-              if (event.key === "ArrowRight") {
-                event.preventDefault();
-                nudge(6);
-              }
-            }}
-            className={cn(
-              "absolute top-1/2 left-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2",
-              "items-center justify-center rounded-full",
-              "border border-[#c2431c] bg-[#c2431c] text-[#fbf8f3] transition-transform duration-300",
-              keyboard ? "scale-110" : "hover:scale-110",
-            )}
-          >
-            <svg viewBox="0 0 24 12" className="h-2.5 w-5" aria-hidden>
-              <path
-                d="M7 1 2 6l5 5M17 1l5 5-5 5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-        ) : null}
-      </motion.div>
-
-      {finePointer === null ? null : (
-        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-30 hidden justify-center md:flex">
+          className="pointer-events-none absolute inset-0 grid place-items-center bg-chalk [clip-path:circle(calc(var(--flood,0)*1%)_at_50%_var(--cy))]"
+        >
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.9, duration: 0.8 }}
-            className="rounded-full border border-[#c2431c]/50 bg-[#14100e]/50 px-4 py-1.5 font-mono text-[0.6rem] tracking-[0.2em] text-[#c8b8ac] uppercase backdrop-blur-sm"
+            style={{ opacity: outroOpacity, y: outroY }}
+            className="px-5 text-center font-display text-title font-extrabold text-midnight"
           >
-            {reduced
-              ? "Marketing + engineering, one team"
-              : finePointer
-                ? "The seam follows your cursor"
-                : "Keep scrolling to shift the seam"}
+            Two halves.
+            <br />
+            <span className="text-cobalt">One brain.</span>
           </motion.p>
         </div>
-      )}
-    </div>
+      </motion.div>
+    </section>
   );
 }

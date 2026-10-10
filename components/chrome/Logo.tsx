@@ -1,36 +1,35 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Twin lobes that lean together on hover — marketing and engineering, one mark.
+ * Two half-discs — saffron for marketing, cobalt for engineering — that close
+ * into one circle on hover. The whole idea of the company in one mark.
  */
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  wordmark = true,
+}: {
+  className?: string;
+  wordmark?: boolean;
+}) {
   return (
     <span className={cn("group/logo inline-flex items-center gap-2.5", className)}>
-      <svg
-        viewBox="0 0 34 20"
-        aria-hidden
-        className="h-[1.05em] w-auto overflow-visible"
-      >
-        <circle
-          cx="10"
-          cy="10"
-          r="8.2"
-          fill="currentColor"
-          className="origin-center transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/logo:translate-x-[2px]"
+      <svg viewBox="0 0 28 24" aria-hidden className="h-[1.3em] w-auto overflow-visible">
+        <path
+          d="M12 2a10 10 0 0 0 0 20Z"
+          fill="#ffb224"
+          className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/logo:translate-x-[2px]"
         />
-        <circle
-          cx="22"
-          cy="10"
-          r="8.2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.35"
-          className="origin-center transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/logo:-translate-x-[2px]"
+        <path
+          d="M16 2a10 10 0 0 1 0 20Z"
+          fill="#2b59ff"
+          className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/logo:-translate-x-[2px]"
         />
       </svg>
-      <span className="font-display text-[1.05em] leading-none tracking-[-0.02em]">
-        Brown Brains
-      </span>
+      {wordmark ? (
+        <span className="font-display text-[1.05em] leading-none font-bold tracking-[-0.03em]">
+          Brown Brains
+        </span>
+      ) : null}
     </span>
   );
 }
