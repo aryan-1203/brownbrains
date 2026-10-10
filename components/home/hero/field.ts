@@ -43,7 +43,9 @@ function particleBudget() {
   const cores = navigator.hardwareConcurrency || 4;
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
   const small = window.innerWidth < 768;
-  let n = small ? 1300 : 2800;
+  // Tablets get desktop-sized screens but phone-class GPUs.
+  const touch = window.matchMedia("(pointer: coarse)").matches;
+  let n = small ? 1300 : touch ? 1900 : 2800;
   if (cores <= 4 || memory <= 4) n = Math.round(n * 0.7);
   return n - (n % 2);
 }

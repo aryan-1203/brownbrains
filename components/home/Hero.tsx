@@ -106,7 +106,7 @@ function HeroCopy({ style }: { style?: MotionStyle }) {
   return (
     <motion.div
       style={style}
-      className="shell relative z-10 grid gap-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-14"
+      className="shell relative z-10 grid gap-6 pb-[calc(var(--toolbar,0px)+max(2.5rem,env(safe-area-inset-bottom)))] md:grid-cols-[1.4fr_1fr] md:items-end md:gap-12 md:pb-[calc(var(--toolbar,0px)+3.5rem)]"
     >
       <div>
         <p className="eyebrow css-rise mb-4 text-sky" style={delay("0s")}>
@@ -207,9 +207,12 @@ export function Hero() {
       aria-label="Introduction"
       className="relative z-20 h-[180vh] md:h-[230vh]"
     >
+      {/* The stage is the *large* viewport tall: when a phone's toolbar slides
+          away the screen grows, and a shorter stage would expose the section
+          waiting underneath. --toolbar keeps copy clear of the toolbar zone. */}
       <motion.div
         style={{ "--hole": hole, pointerEvents: stageEvents } as unknown as MotionStyle}
-        className="hero-hole theme-midnight sticky top-0 flex h-svh flex-col justify-end overflow-hidden"
+        className="hero-hole theme-midnight sticky top-0 flex h-lvh flex-col justify-end overflow-hidden [--toolbar:calc(100lvh-100svh)]"
       >
         <div aria-hidden className="hero-glow absolute inset-0" />
         <Field progress={p} still={false} />
@@ -218,7 +221,7 @@ export function Hero() {
         <motion.p
           aria-hidden
           style={{ opacity: sphereCaption }}
-          className="pointer-events-none absolute inset-x-0 bottom-[14%] px-6 text-center font-display text-heading font-bold text-chalk"
+          className="pointer-events-none absolute inset-x-0 bottom-[calc(var(--toolbar)+14svh)] px-6 text-center font-display text-heading font-bold text-chalk"
         >
           Strategy and code. <span className="text-saffron">One brain.</span>
         </motion.p>
