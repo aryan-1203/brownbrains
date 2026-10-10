@@ -26,7 +26,7 @@ export default function ServicesPage() {
       <Section theme="chalk" pad={false} className="overflow-x-clip pt-36 pb-20 md:pt-44 md:pb-28">
         <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
           <div>
-            <Reveal y={16}>
+            <Reveal immediate y={16}>
               <Eyebrow>Services</Eyebrow>
             </Reveal>
             <SplitReveal
@@ -37,13 +37,13 @@ export default function ServicesPage() {
               accent={["One"]}
               className="mt-6 text-display"
             />
-            <Reveal delay={0.35} y={20}>
+            <Reveal immediate delay={0.35} y={20}>
               <p className="lead mt-6 max-w-md">
                 Take one side or both. Marketing and engineering, planned
                 together.
               </p>
             </Reveal>
-            <Reveal delay={0.5} y={20} className="mt-9 flex flex-wrap gap-3">
+            <Reveal immediate delay={0.5} y={20} className="mt-9 flex flex-wrap gap-3">
               <Button href="/contact">Start a project</Button>
               <Button href="#all-services" variant="secondary" arrow={false}>
                 See all seven

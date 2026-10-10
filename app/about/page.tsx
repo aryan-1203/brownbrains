@@ -45,7 +45,7 @@ export default function AboutPage() {
       <Section theme="midnight" pad={false} className="overflow-hidden">
         <div className="shell grid items-center gap-12 pt-36 pb-20 md:pt-44 md:pb-28 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <Reveal y={16}>
+            <Reveal immediate y={16}>
               <Eyebrow>About</Eyebrow>
             </Reveal>
             <SplitReveal
@@ -56,13 +56,13 @@ export default function AboutPage() {
               accent={["ship."]}
               className="mt-6 text-display font-black"
             />
-            <Reveal delay={0.35} y={20}>
+            <Reveal immediate delay={0.35} y={20}>
               <p className="lead mt-6 max-w-md">
                 Marketing leadership and engineering under one roof, answerable
                 for one result.
               </p>
             </Reveal>
-            <Reveal delay={0.5} y={20} className="mt-9">
+            <Reveal immediate delay={0.5} y={20} className="mt-9">
               <Button href="#leadership" variant="secondary">
                 Meet the leadership
               </Button>

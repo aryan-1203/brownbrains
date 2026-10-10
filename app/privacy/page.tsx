@@ -74,7 +74,7 @@ export default function PrivacyPage() {
               accent={["plain"]}
               className="mt-6 max-w-3xl text-display"
             />
-            <Reveal delay={0.3}>
+            <Reveal immediate delay={0.3}>
               <p className="lead mt-6 max-w-lg">
                 We collect very little. Here is exactly what, where it goes and
                 how to remove it.

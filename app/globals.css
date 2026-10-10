@@ -364,3 +364,192 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   First-screen entrances. Pure CSS so above-the-fold content animates the
+   moment HTML arrives, without waiting for JavaScript to hydrate. They wait
+   for the intro curtain (--intro) on a session's first page load only.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --intro: 1.3s;
+}
+html[data-intro="seen"] {
+  --intro: 0s;
+}
+
+@keyframes bb-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--rise, 20px), 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bb-word {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.css-rise {
+  animation: bb-rise 650ms var(--ease-out-expo) both;
+  animation-delay: calc(var(--intro) + var(--d, 0s));
+}
+
+.css-word {
+  animation: bb-word 750ms var(--ease-out-expo) both;
+  animation-delay: calc(var(--intro) + var(--d, 0s));
+}
+
+/* Soft two-tone light behind the hero field. Static, so it costs nothing. */
+.hero-glow {
+  background:
+    radial-gradient(40% 38% at 36% 40%, rgba(255, 178, 36, 0.13), transparent 70%),
+    radial-gradient(40% 38% at 64% 40%, rgba(43, 89, 255, 0.2), transparent 70%);
+}
+
+/* The home hero's exit: a circle cut out of the stage, sized by --hole
+   (in vmax), revealing the section waiting underneath. */
+.hero-hole {
+  --hole-mask: radial-gradient(
+    circle at 50% 46%,
+    transparent calc(var(--hole, 0) * 1vmax),
+    #000 calc(var(--hole, 0) * 1vmax + 1px)
+  );
+  -webkit-mask-image: var(--hole-mask);
+  mask-image: var(--hole-mask);
+}
+
+/* --------------------------------------------------------------------------
+   Intro curtain. "Brown" and "Brains" type out together, then the curtain
+   splits along the seam between them. CSS only: it plays before any JS.
+   -------------------------------------------------------------------------- */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  animation: bb-gone 1ms linear calc(var(--intro) + 0.8s) forwards;
+}
+html[data-intro="seen"] .curtain {
+  display: none;
+}
+
+.curtain-panel {
+  position: absolute;
+  inset-inline: 0;
+  height: 50.5%;
+  display: flex;
+  justify-content: center;
+  background: var(--color-midnight);
+  will-change: transform;
+}
+.curtain-panel[data-side="top"] {
+  top: 0;
+  align-items: flex-end;
+  animation: bb-part-up 0.75s var(--ease-in-out-quart) var(--intro) forwards;
+}
+.curtain-panel[data-side="bottom"] {
+  bottom: 0;
+  align-items: flex-start;
+  animation: bb-part-down 0.75s var(--ease-in-out-quart) var(--intro) forwards;
+}
+
+.curtain-word {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 17vw, 11rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  white-space: nowrap;
+}
+
+/* Each letter is collapsed until its turn, then snaps open: a keystroke. */
+.curtain-char {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 0;
+  vertical-align: bottom;
+  animation: bb-key 1ms steps(1, end) calc(0.2s + var(--i) * var(--step)) forwards;
+}
+
+.curtain-caret {
+  display: inline-block;
+  width: 0.07em;
+  height: 0.78em;
+  margin-left: 0.05em;
+  border-radius: 2px;
+  background: currentColor;
+  animation:
+    bb-caret 0.5s steps(1, end) infinite,
+    bb-fade 0.2s linear calc(var(--intro) - 0.25s) forwards;
+}
+
+.curtain-seam {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(50% - 1px);
+  margin-inline: auto;
+  width: min(70vw, 46rem);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-saffron), var(--color-cobalt));
+  transform: scaleX(0);
+  animation:
+    bb-seam 0.4s var(--ease-out-expo) calc(var(--intro) - 0.4s) forwards,
+    bb-fade 0.2s linear calc(var(--intro) + 0.1s) forwards;
+}
+
+@keyframes bb-key {
+  to {
+    max-width: 1.2em;
+  }
+}
+@keyframes bb-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes bb-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes bb-seam {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes bb-part-up {
+  to {
+    transform: translate3d(0, -101%, 0);
+  }
+}
+@keyframes bb-part-down {
+  to {
+    transform: translate3d(0, 101%, 0);
+  }
+}
+@keyframes bb-gone {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --intro: 0s;
+  }
+  .curtain {
+    display: none;
+  }
+}

@@ -5,9 +5,15 @@ import { ScrollWords } from "@/components/motion/ScrollWords";
 import { GapGraphic } from "@/components/home/GapGraphic";
 
 /** Chapter 2. The gap between two vendors, and where the money goes. */
+/**
+ * Sits underneath the pinned hero (negative top margin) and is revealed
+ * through the hero's opening window. The margin puts this section's top at
+ * the viewport top at 97% of the hero pin: 180vh − 0.97×80vh on mobile,
+ * 230vh − 0.97×130vh from md. Retune both if the hero's height changes.
+ */
 export function Problem() {
   return (
-    <Section theme="chalk" id="problem" className="overflow-x-clip">
+    <Section theme="chalk" id="problem" className="-mt-[102vh] overflow-x-clip pt-28! md:-mt-[104vh] md:pt-32!">
       <div className="shell grid items-center gap-12 md:grid-cols-[1fr_1.05fr] md:gap-16">
         <div>
           <Eyebrow>The problem</Eyebrow>

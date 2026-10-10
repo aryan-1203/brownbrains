@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { inView, staggerParent, wordMask } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -28,15 +29,42 @@ export function SplitReveal({
   const Tag = motion[as];
   const words = text.split(" ");
 
+  // Heroes animate with CSS so the headline appears as soon as the HTML does,
+  // rather than staying masked until JavaScript hydrates.
+  if (immediate) {
+    const Plain = as;
+    return (
+      <Plain className={className} aria-label={text}>
+        {words.map((word, index) => (
+          <span
+            key={`${word}-${index}`}
+            aria-hidden
+            className="inline-block overflow-hidden pb-[0.08em] align-bottom"
+          >
+            <span
+              className={cn(
+                "css-word inline-block",
+                accent.includes(word) && "text-accent",
+              )}
+              style={{ "--d": `${delay + index * 0.06}s` } as CSSProperties}
+            >
+              {word}
+              {index < words.length - 1 ? " " : ""}
+            </span>
+          </span>
+        ))}
+      </Plain>
+    );
+  }
+
   return (
     <Tag
       className={className}
       aria-label={text}
       variants={staggerParent(0.06, delay)}
       initial={reduced ? false : "hidden"}
-      {...(immediate
-        ? { animate: "show" }
-        : { whileInView: "show", viewport: inView })}
+      whileInView="show"
+      viewport={inView}
     >
       {words.map((word, index) => (
         <span

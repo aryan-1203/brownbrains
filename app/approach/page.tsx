@@ -37,13 +37,13 @@ export default function ApproachPage() {
               accent={["shipped."]}
               className="mt-6 text-display"
             />
-            <Reveal delay={0.35}>
+            <Reveal immediate delay={0.35}>
               <p className="lead mt-6 max-w-md">
                 Five stages. Marketing and engineering in one room, the whole
                 way through.
               </p>
             </Reveal>
-            <Reveal delay={0.5} className="mt-9 flex flex-wrap gap-3">
+            <Reveal immediate delay={0.5} className="mt-9 flex flex-wrap gap-3">
               <Button href="/contact">Start a project</Button>
               <Button href="#stages" variant="ghost" arrow={false}>
                 See the stages

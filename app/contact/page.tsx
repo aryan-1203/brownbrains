@@ -102,7 +102,7 @@ export default function ContactPage() {
               accent={["next."]}
               className="mt-6 text-display"
             />
-            <Reveal delay={0.35}>
+            <Reveal immediate delay={0.35}>
               <p className="lead mt-6 max-w-md">
                 Tell us what you are building. A senior person replies within
                 one working day.
@@ -123,7 +123,7 @@ export default function ContactPage() {
             </Reveal>
           </div>
 
-          <Reveal
+          <Reveal immediate
             delay={0.2}
             y={40}
             className="mx-auto w-full max-w-md lg:mr-0"

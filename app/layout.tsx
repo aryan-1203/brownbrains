@@ -6,6 +6,7 @@ import { RouteTransition } from "@/components/chrome/RouteTransition";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { Curtain } from "@/components/chrome/Curtain";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -69,7 +70,17 @@ export default function RootLayout({
       className={`${schibsted.variable} ${publicSans.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* The intro curtain plays once per session. Marks repeat loads before
+            first paint, and marks the intro done once it has played. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var d=document.documentElement;if(sessionStorage.getItem("bb-intro")){d.dataset.intro="seen"}else{sessionStorage.setItem("bb-intro","1");setTimeout(function(){d.dataset.intro="seen"},2400)}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="antialiased">
+        <Curtain />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[120] focus:rounded-full focus:bg-saffron focus:px-5 focus:py-3 focus:font-bold focus:text-midnight"
