@@ -104,22 +104,6 @@ function HeroCopy({ style }: { style?: MotionStyle }) {
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <Button href="/contact">Start a project</Button>
-          <Button
-            href="#problem"
-            variant="ghost"
-            arrow={false}
-            className="text-chalk"
-          >
-            <span className="flex items-center gap-2">
-              Scroll
-              <span
-                aria-hidden
-                className="relative block h-5 w-3 rounded-full border-2 border-current"
-              >
-                <span className="animate-pulse-dot absolute top-1 left-1/2 block h-1.5 w-0.5 -translate-x-1/2 rounded-full bg-saffron" />
-              </span>
-            </span>
-          </Button>
         </div>
       </div>
     </motion.div>
@@ -144,14 +128,14 @@ function Halves({
         <Orbit items={marketing} side="left" style={orbitStyle} />
         <motion.div
           style={leftStyle}
-          className="absolute inset-0 origin-right rounded-l-full bg-saffron shadow-[0_0_80px_-10px_rgba(255,178,36,0.55)]"
+          className="absolute inset-0 origin-right rounded-l-full bg-saffron md:shadow-[0_0_80px_-10px_rgba(255,178,36,0.55)]"
         />
       </div>
       <div className="absolute top-0 left-1/2 h-full w-1/2 [transform:translateX(calc(var(--split)*var(--off)))]">
         <Orbit items={engineering} side="right" style={orbitStyle} />
         <motion.div
           style={rightStyle}
-          className="absolute inset-0 origin-left rounded-r-full bg-cobalt shadow-[0_0_80px_-10px_rgba(43,89,255,0.7)]"
+          className="absolute inset-0 origin-left rounded-r-full bg-cobalt md:shadow-[0_0_80px_-10px_rgba(43,89,255,0.7)]"
         />
       </div>
     </>
@@ -255,7 +239,7 @@ export function Hero() {
     <section
       ref={ref}
       aria-label="Introduction"
-      className={cn("relative h-[200vh] bg-midnight md:h-[280vh]", geometry)}
+      className={cn("relative h-[170vh] bg-midnight md:h-[280vh]", geometry)}
     >
       <motion.div
         className="theme-midnight sticky top-0 flex h-svh flex-col justify-end overflow-hidden pt-28"

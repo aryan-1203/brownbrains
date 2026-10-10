@@ -18,16 +18,17 @@ export const springSnappy: Transition = {
   mass: 0.6,
 };
 
-/** Standard "enters as it scrolls into frame" viewport config. Soft margins —
- *  aggressive negative margins miss on slow paints and strand once:true reveals. */
-export const inView = { once: true, amount: 0.2, margin: "0px 0px -8% 0px" } as const;
+/** Standard "enters as it scrolls into frame" viewport config. The positive
+ *  bottom margin starts a reveal just before it reaches the screen, so a fast
+ *  thumb-flick on a phone never lands on an empty, still-hidden block. */
+export const inView = { once: true, amount: 0.1, margin: "0px 0px 12% 0px" } as const;
 
 export const riseIn: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: easeOutExpo },
+    transition: { duration: 0.6, ease: easeOutExpo },
   },
 };
 
@@ -41,6 +42,6 @@ export const wordMask: Variants = {
   hidden: { y: "110%" },
   show: {
     y: "0%",
-    transition: { duration: 0.9, ease: easeOutExpo },
+    transition: { duration: 0.7, ease: easeOutExpo },
   },
 };

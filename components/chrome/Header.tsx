@@ -51,7 +51,7 @@ export function Header() {
         animate={{ y: hidden && !open ? -120 : 0 }}
         transition={{ duration: 0.45, ease: easeOutExpo }}
       >
-        <div className="mx-auto flex max-w-[64rem] items-center justify-between gap-4 rounded-full border border-white/10 bg-midnight/88 py-2 pr-2 pl-5 text-chalk shadow-[0_18px_50px_-20px_rgba(10,23,51,0.55)] backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[64rem] items-center justify-between gap-4 rounded-full border border-white/10 bg-midnight py-2 pr-2 pl-5 text-chalk md:bg-midnight/88 md:shadow-[0_18px_50px_-20px_rgba(10,23,51,0.55)] md:backdrop-blur-xl">
           <Link href="/" aria-label={`${site.name}, home`} className="py-2">
             <Logo className="text-[1.05rem]" />
           </Link>

@@ -29,7 +29,7 @@ export function RouteTransition() {
 
   useEffect(() => {
     if (!sweeping) return;
-    const timer = setTimeout(() => setSweeping(null), 760);
+    const timer = setTimeout(() => setSweeping(null), 520);
     return () => clearTimeout(timer);
   }, [sweeping]);
 
@@ -41,25 +41,25 @@ export function RouteTransition() {
           aria-hidden
           className="pointer-events-none fixed inset-0 z-[95] flex"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, delay: 0.1 }}
+          transition={{ duration: 0.25 }}
         >
           <motion.div
             className="h-full w-1/2 bg-saffron"
             initial={{ x: "-100%" }}
             animate={{ x: "0%" }}
-            transition={{ duration: 0.5, ease: easeInOutQuart }}
+            transition={{ duration: 0.38, ease: easeInOutQuart }}
           />
           <motion.div
             className="h-full w-1/2 bg-cobalt"
             initial={{ x: "100%" }}
             animate={{ x: "0%" }}
-            transition={{ duration: 0.5, ease: easeInOutQuart }}
+            transition={{ duration: 0.38, ease: easeInOutQuart }}
           />
           <motion.span
             className="absolute inset-0 flex items-center justify-center font-display text-[clamp(2.5rem,9vw,6.5rem)] font-bold tracking-[-0.04em] text-midnight"
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
+            transition={{ duration: 0.2, delay: 0.2 }}
           >
             {routeLabel(sweeping)}
           </motion.span>

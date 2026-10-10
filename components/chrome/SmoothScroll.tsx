@@ -7,14 +7,18 @@ import { useReducedMotion } from "motion/react";
 import { setLenis } from "@/lib/lenis-store";
 
 /**
- * Inertial scrolling. Driven by Motion's frame loop so useScroll / whileInView
+ * Inertial wheel scrolling for mouse and trackpad users. Driven by Motion's frame loop so useScroll / whileInView
  * stay in lockstep — a separate rAF often desyncs under production load.
  */
 export function SmoothScroll() {
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) return;
+    // Phones and tablets already have momentum scrolling built in. Layering
+    // Lenis on top only adds main-thread work, so leave touch devices native.
+    if (reduced || window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+      return;
+    }
 
     const lenis = new Lenis({
       duration: 1.1,

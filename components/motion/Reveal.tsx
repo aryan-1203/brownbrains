@@ -19,7 +19,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  y = 32,
+  y = 20,
   x = 0,
   as = "div",
 }: Props) {
@@ -32,7 +32,7 @@ export function Reveal({
       initial={reduced ? false : { opacity: 0, y, x }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       viewport={inView}
-      transition={{ duration: 0.85, delay, ease: easeOutExpo }}
+      transition={{ duration: 0.6, delay: Math.min(delay, 0.2), ease: easeOutExpo }}
     >
       {children}
     </Tag>
