@@ -11,6 +11,8 @@ export type Founder = {
   role: string;
   /** Short label shown above the name. */
   discipline: string;
+  /** Overrides the tag pinned to the portrait (defaults to the half's name). */
+  tag?: string;
   /** One line. */
   bio: string;
   /** A few short focus areas (keep it brief). */
@@ -26,7 +28,8 @@ export const founders: Founder[] = [
     half: "marketing",
     name: "Ajay Shrivastava",
     role: "Founder & Chairman",
-    discipline: "Marketing",
+    discipline: "Strategy & Brand Building",
+    tag: "Strategy & Brand Building",
     bio: "Decades of brand leadership, with growth judged on revenue, not reach.",
     focus: ["Brand & positioning", "Go-to-market", "Campaign leadership"],
     portrait: "/founder-ajay.jpg",

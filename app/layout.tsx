@@ -7,6 +7,7 @@ import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { Curtain } from "@/components/chrome/Curtain";
+import { WhatsAppBot } from "@/components/chrome/WhatsAppBot";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -93,6 +94,7 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <WhatsAppBot />
       </body>
     </html>
   );

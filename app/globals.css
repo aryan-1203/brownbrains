@@ -553,3 +553,64 @@ html[data-intro="seen"] .curtain {
     display: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   WhatsApp launcher: a nudge and a ripple until the visitor first opens it.
+   Transform/opacity only.
+   -------------------------------------------------------------------------- */
+
+@keyframes bb-nudge {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  88% {
+    transform: rotate(-12deg) scale(1.08);
+  }
+  91% {
+    transform: rotate(10deg) scale(1.08);
+  }
+  94% {
+    transform: rotate(-6deg) scale(1.04);
+  }
+  97% {
+    transform: rotate(3deg) scale(1);
+  }
+}
+
+@keyframes bb-ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.animate-nudge {
+  animation: bb-nudge 7s ease-in-out 1.5s infinite;
+}
+
+.animate-ripple {
+  animation: bb-ripple 2.4s var(--ease-out-expo) infinite;
+}
+
+@keyframes bb-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  animation: bb-typing 1s ease-in-out infinite;
+}

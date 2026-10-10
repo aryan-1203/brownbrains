@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { inView, staggerParent, wordMask } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -36,22 +36,24 @@ export function SplitReveal({
     return (
       <Plain className={className} aria-label={text}>
         {words.map((word, index) => (
-          <span
-            key={`${word}-${index}`}
-            aria-hidden
-            className="inline-block overflow-hidden pb-[0.08em] align-bottom"
-          >
+          <Fragment key={`${word}-${index}`}>
             <span
-              className={cn(
-                "css-word inline-block",
-                accent.includes(word) && "text-accent",
-              )}
-              style={{ "--d": `${delay + index * 0.06}s` } as CSSProperties}
+              aria-hidden
+              className="inline-block overflow-hidden pb-[0.08em] align-bottom"
             >
-              {word}
-              {index < words.length - 1 ? " " : ""}
+              <span
+                className={cn(
+                  "css-word inline-block",
+                  accent.includes(word) && "text-accent",
+                )}
+                style={{ "--d": `${delay + index * 0.06}s` } as CSSProperties}
+              >
+                {word}
+              </span>
             </span>
-          </span>
+            {/* Outside the inline-block: a trailing space inside one collapses. */}
+            {index < words.length - 1 ? " " : null}
+          </Fragment>
         ))}
       </Plain>
     );

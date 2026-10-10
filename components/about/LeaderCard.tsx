@@ -142,12 +142,12 @@ export function LeaderCard({
         <motion.span
           aria-hidden
           className={cn(
-            "absolute top-4 left-4 rounded-full px-3 py-1.5 text-[0.72rem] font-bold tracking-[0.12em] uppercase",
+            "absolute top-4 left-4 max-w-[calc(100%-2rem)] rounded-full px-3 py-1.5 text-[0.72rem] font-bold tracking-[0.12em] uppercase",
             tone.tag,
           )}
           style={still ? undefined : { y: tagY, opacity: tagOpacity }}
         >
-          {tone.label}
+          {founder.tag ?? tone.label}
         </motion.span>
       </div>
 

@@ -19,9 +19,9 @@ export const site = {
 
   contact: {
     emails: ["founder@brownbrains.com"],
-    phones: ["+91 7694015167"],
+    phones: ["+91 97555 61424"],
     // Digits only, with country code, no "+" or spaces. Leave "" to hide the button.
-    whatsapp: "917694015167",
+    whatsapp: "919755561424",
     city: "Bhopal",
     country: "India",
     timezone: "IST (UTC+5:30)",
