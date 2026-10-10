@@ -83,7 +83,7 @@ export function PrinciplesFocus() {
   }
 
   return (
-    <ol className="overflow-x-clip">
+    <ol>
       {principles.map((p, i) => (
         <FocusItem key={p.title} principle={p} index={i} />
       ))}

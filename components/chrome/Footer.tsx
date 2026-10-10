@@ -44,7 +44,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 text-[0.98rem]">
+          <div className="grid grid-cols-2 gap-8 text-[0.98rem] [&>*]:min-w-0">
             <div>
               <p className="eyebrow">Explore</p>
               <ul className="mt-5 space-y-3">
@@ -59,7 +59,7 @@ export function Footer() {
             </div>
             <div>
               <p className="eyebrow">Reach us</p>
-              <ul className="mt-5 space-y-3 break-words">
+              <ul className="mt-5 space-y-3 [overflow-wrap:anywhere]">
                 {site.contact.emails.map((email) => (
                   <li key={email}>
                     <a href={`mailto:${email}`} className="link-underline text-ink/85 hover:text-ink">

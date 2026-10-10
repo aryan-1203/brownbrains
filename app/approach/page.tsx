@@ -113,7 +113,7 @@ export default function ApproachPage() {
       </Section>
 
       {/* Principles */}
-      <Section theme="saffron">
+      <Section theme="saffron" className="overflow-x-clip">
         <div className="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Eyebrow>How we behave</Eyebrow>
