@@ -166,10 +166,18 @@ export function createField(opts: FieldOptions) {
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const narrow = w < 768;
-    R = narrow ? Math.min(w * 0.235, h * 0.17) : Math.min(h * 0.25, w * 0.19);
+    const portrait = h > w;
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    // Phones, portrait tablets and landscape screens each get a globe sized to
+    // their own shape; a single rule leaves it tiny on a tall iPad.
+    R = narrow
+      ? Math.min(w * 0.235, h * 0.17)
+      : portrait
+        ? Math.min(w * 0.27, h * 0.22)
+        : Math.min(h * 0.25, w * 0.19);
     cx = w / 2;
-    cy = narrow ? h * 0.3 : h * 0.4;
-    dot = narrow ? 2.1 : 1.9;
+    cy = narrow ? h * 0.3 : portrait ? h * 0.36 : h * 0.4;
+    dot = narrow ? 2.1 : touch ? 2.4 : 1.9;
   }
 
   // ---- Frame loop. --------------------------------------------------------
