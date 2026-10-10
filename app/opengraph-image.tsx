@@ -5,8 +5,8 @@ export const alt = `${site.name}. ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const HEADLINE = ["Marketing and", "engineering,", "built as one."];
-const KICKER = "Brand · Campaigns · Websites · Apps · AI workflows";
+const HEADLINE = ["Marketing,", "product and", "engineering."];
+const KICKER = "Brand · Product · Websites · Apps · AI";
 const WORDMARK = site.name;
 const PLACE = `${site.contact.city}, ${site.contact.country}`;
 
@@ -147,7 +147,7 @@ export default async function OpengraphImage() {
                 fontWeight: 800,
                 lineHeight: 1,
                 letterSpacing: -4,
-                color: index === 2 ? "#ffb224" : "#f5f6f9",
+                color: index === 1 ? "#ffb224" : "#f5f6f9",
               }}
             >
               {line}

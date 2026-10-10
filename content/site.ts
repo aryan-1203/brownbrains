@@ -8,14 +8,14 @@
 export const site = {
   name: "Brown Brains",
   legalName: "Brown Brains", // REPLACE if you register a different legal entity name
-  tagline: "Marketing and engineering, built as one.",
+  tagline: "Marketing, product and engineering, under one roof",
   description:
-    "Brown Brains is a marketing and engineering company. Brand, campaigns, websites, apps and AI workflows, planned and built by one team.",
-  shortDescription: "Marketing and engineering, built as one team.",
+    "Brown Brains is a marketing, product and engineering company. We take a brand from positioning to a shipped product, strategy and build as one team.",
+  shortDescription:
+    "Marketing, product and engineering. From positioning to a shipped product, one team.",
 
-  // REPLACE with your production domain once you have one. Used for canonical
-  // URLs, sitemap and Open Graph tags. Include the protocol, no trailing slash.
-  url: "https://brown-brains.vercel.app",
+  // Production domain. Used for canonical URLs, sitemap and Open Graph tags.
+  url: "https://www.brownbrains.com",
 
   contact: {
     emails: ["founder@brownbrains.com"],
