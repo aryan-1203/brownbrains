@@ -93,9 +93,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-4 py-8 text-[0.88rem] text-muted sm:flex-row sm:items-center sm:justify-between">
           <Logo className="text-[1rem] text-ink" />
-          <p>
-            &copy; {site.legalName} · {site.contact.city}, {site.contact.country}
-          </p>
+          <p>&copy; {site.legalName}</p>
           <Link href="/privacy" className="link-underline hover:text-ink">
             Privacy
           </Link>
